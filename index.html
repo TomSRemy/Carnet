@@ -54,11 +54,12 @@
   .date-head{font-family:'Outfit',sans-serif;font-weight:300;font-size:28px;letter-spacing:1px;text-transform:uppercase;line-height:1.05;margin-top:14px}
   .date-sub{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--tx2);font-weight:600;margin-top:6px}
 
-  .lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--tx2);font-weight:600;
+  .lbl{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--tx);font-weight:600;
     display:flex;align-items:center;gap:7px;margin:20px 0 12px;padding-top:28px;border-top:1px dotted var(--line)}
   .lbl.first{border-top:none;padding-top:18px}
   .lbl .sq{width:8px;height:8px;border-radius:2px;flex-shrink:0}
-  .emo{font-size:14px;line-height:1;flex-shrink:0}
+  .emo{font-size:14px;line-height:1;flex-shrink:0;display:inline-flex;align-items:center}
+  .emo svg{width:15px;height:15px;display:block;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
   .lbl .opt{letter-spacing:.3px;text-transform:none;color:var(--tx2);font-weight:400;opacity:.7}
 
   .autop{display:flex;flex-wrap:wrap;gap:7px}
@@ -88,6 +89,8 @@
   .eslider{-webkit-appearance:none;appearance:none;width:100%;height:10px;border-radius:6px;background:var(--surf);border:1px solid var(--surfb);outline:none;margin:6px 0 2px}
   .eslider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:28px;height:28px;border-radius:50%;background:var(--mint);border:4px solid var(--ink);cursor:pointer}
   .eslider::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--mint);border:4px solid var(--ink);cursor:pointer}
+  .eslider.stress::-webkit-slider-thumb{background:var(--coral)}
+  .eslider.stress::-moz-range-thumb{background:var(--coral)}
 
   .pills{display:flex;gap:7px;flex-wrap:wrap}
   .pill{flex:1;min-width:50px;padding:12px 8px;border:1px solid var(--surfb);border-radius:6px;
@@ -141,9 +144,9 @@
     padding-top:16px;border-top:1px dotted var(--line)}
   .section-t .sq{width:9px;height:9px;border-radius:2px}
 
-  .grid-scroll{overflow-x:auto;margin:0 -4px;padding:0 4px}
-  .pgrid{display:grid;grid-template-columns:26px repeat(31,1fr);gap:2px;min-width:330px}
-  .pg-mlabel{font-size:9px;letter-spacing:.3px;text-transform:uppercase;color:var(--tx2);display:flex;align-items:center;height:100%;font-weight:600}
+  .grid-scroll{overflow:visible;margin:0;padding:0}
+  .pgrid{display:grid;grid-template-columns:13px repeat(31,1fr);gap:1.5px}
+  .pg-mlabel{font-size:8px;letter-spacing:0;text-transform:uppercase;color:var(--tx2);display:flex;align-items:center;justify-content:center;height:100%;font-weight:600}
   .pg-cell{aspect-ratio:1;border-radius:2px;background:var(--surf)}
   .pg-cell.has{cursor:pointer}
   .pg-cell.has:active{transform:scale(1.4)}
@@ -235,7 +238,7 @@
 <body class="theme-today">
 <div class="wrap">
   <header>
-    <div class="masthead"><h1>Carnet</h1><span class="yr" id="mastYear">2026</span><button class="gear" id="gearBtn">Réglages</button></div>
+    <div class="masthead"><h1>Carnet</h1><button class="gear" id="gearBtn">Réglages</button></div>
     <div class="subhead">Rapport quotidien personnel</div>
   </header>
 
@@ -260,35 +263,40 @@
       <div class="date-head" id="todayDate"></div>
       <div class="date-sub" id="todayStatus"></div>
 
-      <div class="lbl first" style="margin-top:18px"><span class="emo">📲</span>Récupéré tout seul</div>
+      <div class="lbl first" style="margin-top:18px"><span class="emo"><svg viewBox="0 0 24 24"><path d="M12 3v10m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></span>Récupéré tout seul</div>
       <div class="autop" id="autoPanel"></div>
 
-      <div class="lbl"><span class="emo">🙂</span>Humeur</div>
+      <div class="lbl"><span class="emo"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14a4 4 0 0 0 7 0M9 9.5v1M15 9.5v1"/></svg></span>Humeur</div>
       <div class="moods" id="moods"></div>
       <div class="mood-labels" id="moodLabels"><span>Mauvaise</span><span>Maussade</span><span>Mitigée</span><span>Bonne</span><span>Radieuse</span></div>
 
-      <div class="lbl"><span class="emo">⚡</span>Énergie</div>
+      <div class="lbl"><span class="emo"><svg viewBox="0 0 24 24"><path d="M13 2L5 14h6l-1 8 9-13h-7z"/></svg></span>Énergie</div>
       <input type="range" class="eslider" id="energy" min="1" max="5" step="1" value="3">
       <div class="energy-cap" id="energyCap">&nbsp;</div>
 
-      <div class="lbl"><span class="emo">🍽️</span>Consommation</div>
+      <div class="lbl"><span class="emo"><svg viewBox="0 0 24 24"><path d="M4 18a8 8 0 0 1 16 0"/><path d="M12 18l4.5-4.5"/><circle cx="12" cy="18" r="1.2"/></svg></span>Stress</div>
+      <input type="range" class="eslider stress" id="stress" min="1" max="5" step="1" value="3">
+      <div class="energy-cap" id="stressCap">&nbsp;</div>
+
+      <div class="lbl"><span class="emo"><svg viewBox="0 0 24 24"><path d="M8 3v18M6 3v5a2 2 0 0 0 4 0V3"/><path d="M16 3c-1.4 0-2.5 2.2-2.5 5S15 13 16 13v8"/></svg></span>Consommation</div>
       <div class="cgrid">
-        <div class="citem"><div class="clbl"><span class="emo">☕</span>Cafés</div><div class="stepper sm" id="qCoffee"></div></div>
-        <div class="citem"><div class="clbl"><span class="emo">🍵</span>Thés</div><div class="stepper sm" id="qTea"></div></div>
-        <div class="citem"><div class="clbl"><span class="emo">🍷</span>Alcool</div><div class="stepper sm" id="qAlcohol"></div></div>
+        <div class="citem"><div class="clbl"><span class="emo"><svg viewBox="0 0 24 24"><path d="M4 8h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 9h2.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3c-.6 1 .6 1.5 0 2.5M12 3c-.6 1 .6 1.5 0 2.5"/></svg></span>Cafés</div><div class="stepper sm" id="qCoffee"></div></div>
+        <div class="citem"><div class="clbl"><span class="emo"><svg viewBox="0 0 24 24"><path d="M4 10h15v2a6 6 0 0 1-6 6h-3a6 6 0 0 1-6-6z"/><path d="M3 21h17"/><path d="M9 3c-.6 1 .6 1.5 0 2.5M13 3c-.6 1 .6 1.5 0 2.5"/></svg></span>Thés</div><div class="stepper sm" id="qTea"></div></div>
+        <div class="citem"><div class="clbl"><span class="emo"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1.2 13a1 1 0 0 1-1 1H8.2a1 1 0 0 1-1-1z"/><path d="M6 7l1-2.5h10L18 7"/><path d="M14 4l-2 17"/></svg></span>Soda</div><div class="stepper sm" id="qSoda"></div></div>
+        <div class="citem"><div class="clbl"><span class="emo"><svg viewBox="0 0 24 24"><path d="M7 3h10l-1 6a4 4 0 0 1-8 0z"/><path d="M12 13v6M9 21h6"/></svg></span>Alcool</div><div class="stepper sm" id="qAlcohol"></div></div>
       </div>
-      <div class="clbl" style="margin-top:16px"><span class="emo">🍬</span>Bonbons</div>
+      <div class="clbl" style="margin-top:24px;margin-bottom:11px"><span class="emo"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M7.5 12L3 8.5v7L7.5 12M16.5 12L21 8.5v7L16.5 12"/></svg></span>Bonbons</div>
       <div class="pills" id="qCandy"></div>
-      <div class="clbl" style="margin-top:12px"><span class="emo">🥨</span>Chips / apéro</div>
+      <div class="clbl" style="margin-top:24px;margin-bottom:11px"><span class="emo"><svg viewBox="0 0 24 24"><path d="M3 11h18a9 9 0 0 1-18 0z"/><path d="M2 21h20"/><circle cx="9" cy="7" r="1.2"/><circle cx="13" cy="5.6" r="1.2"/><circle cx="15.6" cy="8" r="1.2"/></svg></span>Chips / apéro</div>
       <div class="pills" id="qApero"></div>
 
-      <div class="lbl"><span class="emo">👥</span>Avec qui <span class="opt">plusieurs</span></div>
+      <div class="lbl"><span class="emo"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><path d="M16 5.5a3 3 0 0 1 0 5.8M16.5 14.6a5.5 5.5 0 0 1 4 5.4"/></svg></span>Avec qui <span class="opt">plusieurs</span></div>
       <div class="pills" id="qWho"></div>
 
-      <div class="lbl"><span class="emo">💼</span>Journée de travail</div>
+      <div class="lbl"><span class="emo"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></svg></span>Journée de travail</div>
       <div class="pills" id="qWork"></div>
 
-      <div class="lbl"><span class="emo">📝</span>Le moment de la journée</div>
+      <div class="lbl"><span class="emo"><svg viewBox="0 0 24 24"><path d="M4 20h4l10-10-4-4L4 16z"/><path d="M14 6l4 4"/></svg></span>Le moment de la journée</div>
       <textarea class="note" id="note" rows="3" maxlength="180" placeholder="Un truc qui a marqué ta journée…"></textarea>
       <div class="count"><span id="count">0</span>/180</div>
 
@@ -306,7 +314,7 @@
     <div class="stats" id="stats"></div>
     <div class="stats" id="statsSport" style="display:none;border-bottom:1px dotted var(--line)"></div>
 
-    <div class="section-t"><span class="emo">📅</span>L'année en couleurs</div>
+    <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></span>L'année en couleurs</div>
     <div class="grid-scroll"><div class="pgrid" id="pgrid"></div></div>
     <div class="legend">
       <span>Mauvaise</span>
@@ -315,13 +323,13 @@
       <span>Radieuse</span>
     </div>
 
-    <div class="section-t"><span class="emo">📊</span>Humeur moyenne par mois</div>
+    <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M6 21v-7M11 21V6M16 21v-10"/></svg></span>Humeur moyenne par mois</div>
     <div class="mbars" id="mbars"></div>
 
-    <div class="section-t"><span class="emo">✨</span>Les moments</div>
+    <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><path d="M12 3c0 5 1 6 6 6-5 0-6 1-6 6 0-5-1-6-6-6 5 0 6-1 6-6z"/></svg></span>Les moments</div>
     <div id="moments"></div>
 
-    <div class="section-t"><span class="emo">💾</span>Sauvegarde</div>
+    <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><path d="M8 3v5h7V3M8 21v-6h8v6"/></svg></span>Sauvegarde</div>
     <div class="data-row">
       <button id="exportBtn">↓ Exporter</button>
       <button id="importBtn">↑ Importer</button>
@@ -332,11 +340,11 @@
   <!-- ============ ANALYSE ============ -->
   <section class="view" id="view-analyse">
     <div class="yr-nav" style="justify-content:flex-start"><div class="yr">Analyse</div></div>
-    <div class="section-t" style="border-top:none;margin-top:0;padding-top:0"><span class="emo">⚖️</span>Ce qui pèse sur ton humeur</div>
+    <div class="section-t" style="border-top:none;margin-top:0;padding-top:0"><span class="emo"><svg viewBox="0 0 24 24"><path d="M12 3v18M7 21h10"/><path d="M4 7h16M12 5l-8 2 8-2 8 2"/><path d="M4 7l-2 4.5a2.2 2.2 0 0 0 4 0zM20 7l-2 4.5a2.2 2.2 0 0 0 4 0z"/></svg></span>Ce qui pèse sur ton humeur</div>
     <div id="facts"></div>
-    <div class="section-t"><span class="emo">💬</span>Mots qui reviennent</div>
+    <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><path d="M5 4h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H10l-4 4v-4H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg></span>Mots qui reviennent</div>
     <div class="words" id="words"></div>
-    <div class="section-t"><span class="emo">🔗</span>Corrélations entre les données</div>
+    <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><path d="M9 15l6-6"/><path d="M10.5 6.5L12 5a4 4 0 0 1 5.5 5.5L16 12"/><path d="M13.5 17.5L12 19a4 4 0 0 1-5.5-5.5L8 12"/></svg></span>Corrélations entre les données</div>
     <div class="corrlist" id="corrTop"></div>
     <div class="cmatrix" id="corrMatrix"></div>
     <div style="font-size:10px;color:var(--tx2);margin-top:10px;line-height:1.5">Coefficient de Pearson entre paires de jours (vert positif, rouge négatif). À lire avec prudence : avec peu de données beaucoup de liens sont dus au hasard, et corrélation n'est pas causalité.</div>
@@ -358,6 +366,7 @@
     <div class="pd" id="popD"></div>
     <div class="pmood" id="popMood"></div>
     <div class="pi" id="popEn"></div>
+    <div class="pi" id="popSt"></div>
     <div class="pi" id="popA"></div>
     <div class="pi" id="popL"></div>
     <div class="pn" id="popN"></div>
@@ -370,7 +379,9 @@ const KEY='carnet_v1';
 const MOOD=[{c:'var(--m1)'},{c:'var(--m2)'},{c:'var(--m3)'},{c:'var(--m4)'},{c:'var(--m5)'}];
 const MOOD_LBL=['Mauvaise','Maussade','Mitigée','Bonne','Radieuse'];
 const ENERGY_LBL=['','Vidé','Mollo','Correct','En forme','À fond'];
+const STRESS_LBL=['','Serein','Calme','Moyen','Tendu','Sous pression'];
 const MONTHS=['janv','févr','mars','avr','mai','juin','juil','août','sept','oct','nov','déc'];
+const MONTHS1=['J','F','M','A','M','J','J','A','S','O','N','D'];
 const CNT_LBL=['0','1','2','3+'];
 const CANDY_LBL=['Non','Un peu','Beaucoup'];
 const WHO_LBL=['Seul','Famille','Collègues','Amis'];
@@ -403,8 +414,8 @@ const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const esc=s=>(''+s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const today=new Date();
 const todayKey=iso(today);
-let selMood=null,selEnergy=null,viewYear=today.getFullYear();
-let extra={coffee:0,tea:0,candy:null,alcohol:0,apero:null,who:[],work:null};
+let selMood=null,selEnergy=null,selStress=3,viewYear=today.getFullYear();
+let extra={coffee:0,tea:0,soda:0,candy:null,alcohol:0,apero:null,who:[],work:null};
 
 function fmtScreen(min){const h=Math.floor(min/60),m=Math.round(min%60);return h?`${h} h${m?' '+m:''}`:`${m} min`;}
 function fmtH(hours){const h=Math.floor(hours),m=Math.round((hours-h)*60);return m?`${h} h ${pad(m)}`:`${h} h`;}
@@ -414,6 +425,7 @@ function actText(g){if(!g)return'';const b=[];
 function whoText(arr){return (arr&&arr.length)?arr.map(i=>WHO_LBL[i]).join(' + '):'';}
 function lifeChips(e){const o=[];
   if(e.coffee)o.push({l:'Café',v:e.coffee});
+  if(e.soda)o.push({l:'Soda',v:e.soda});
   if(e.tea)o.push({l:'Thé',v:e.tea});
   if(e.candy)o.push({l:'Bonbons',v:CANDY_LBL[e.candy]});
   if(e.apero)o.push({l:'Apéro',v:CANDY_LBL[e.apero]});
@@ -512,29 +524,34 @@ function buildToday(){
   function setEnergy(v){selEnergy=v;enEl.value=v;document.getElementById('energyCap').textContent=ENERGY_LBL[v];
     const p=(v-1)/4*100;enEl.style.background=`linear-gradient(to right,var(--mint) 0%,var(--mint) ${p}%,var(--surf) ${p}%,var(--surf) 100%)`;refreshSave();}
   enEl.oninput=()=>setEnergy(parseInt(enEl.value));
+  const stEl=document.getElementById('stress');
+  function setStress(v){selStress=v;stEl.value=v;document.getElementById('stressCap').textContent=STRESS_LBL[v];
+    const p=(v-1)/4*100;stEl.style.background=`linear-gradient(to right,var(--coral) 0%,var(--coral) ${p}%,var(--surf) ${p}%,var(--surf) 100%)`;}
+  stEl.oninput=()=>setStress(parseInt(stEl.value));
   const note=document.getElementById('note');
   note.oninput=()=>{document.getElementById('count').textContent=note.value.length;};
 
   const e=Store.read().entries[todayKey];
   const status=document.getElementById('todayStatus');
-  selMood=null;selEnergy=null;extra={coffee:0,tea:0,candy:null,alcohol:0,apero:null,who:[],work:null};
+  selMood=null;selEnergy=null;selStress=3;extra={coffee:0,tea:0,soda:0,candy:null,alcohol:0,apero:null,who:[],work:null};
   if(e&&e.mood){
     selMood=e.mood;selEnergy=e.energy;note.value=e.note||'';
     document.getElementById('count').textContent=note.value.length;
     [...moodsEl.children].forEach((c,j)=>c.classList.toggle('sel',j===e.mood-1));
     [...labelsEl.children].forEach((c,j)=>c.classList.toggle('sel',j===e.mood-1));
-    setEnergy(e.energy);
+    setEnergy(e.energy);setStress(e.stress||3);
     status.textContent='Déjà rempli · tu peux modifier';
-  }else{status.textContent='À toi de jouer';setEnergy(3);}
+  }else{status.textContent='À toi de jouer';setEnergy(3);setStress(3);}
   const ec=e||{};
   buildStepper('qCoffee','coffee',ec.coffee||0,20,'');
   buildStepper('qTea','tea',ec.tea||0,20,'');
+  buildStepper('qSoda','soda',ec.soda||0,20,'');
   buildPills('qCandy',CANDY_LBL,'candy',(typeof ec.candy==='number')?ec.candy:null);
   buildPills('qApero',CANDY_LBL,'apero',(typeof ec.apero==='number')?ec.apero:null);
   buildStepper('qAlcohol','alcohol',ec.alcohol||0,30,'');
   buildMultiPills('qWho',WHO_LBL,'who',ec.who||[],0);
   buildPills('qWork',WORK_LBL,'work',ec.work??null);
-  document.getElementById('todayDate').textContent=today.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('todayDate').textContent=today.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   renderAutoPanel();refreshSave();
 }
 function refreshSave(){document.getElementById('saveBtn').disabled=!(selMood&&selEnergy);}
@@ -542,7 +559,7 @@ document.getElementById('saveBtn').onclick=()=>{
   if(!(selMood&&selEnergy))return;
   const d=Store.read();const prev=d.entries[todayKey]||{};
   d.entries[todayKey]={...prev,mood:selMood,energy:selEnergy,note:document.getElementById('note').value.trim(),
-    coffee:extra.coffee,tea:extra.tea,candy:extra.candy,alcohol:extra.alcohol,apero:extra.apero,who:extra.who,work:extra.work};
+    stress:selStress,coffee:extra.coffee,tea:extra.tea,soda:extra.soda,candy:extra.candy,alcohol:extra.alcohol,apero:extra.apero,who:extra.who,work:extra.work};
   Store.write(d);celebrate();toast('Enregistré');
   const btn=document.getElementById('saveBtn');btn.classList.add('done');btn.textContent='Noté';
   setTimeout(()=>{btn.classList.remove('done');btn.textContent='Mettre à jour';},1600);
@@ -580,7 +597,7 @@ function buildBilan(){
   pg.appendChild(cell('pg-mlabel',''));
   for(let d=1;d<=31;d++)pg.appendChild(cell('pg-mlabel',''));
   for(let m=0;m<12;m++){
-    pg.appendChild(cell('pg-mlabel',MONTHS[m]));
+    pg.appendChild(cell('pg-mlabel',MONTHS1[m]));
     const dim=new Date(viewYear,m+1,0).getDate();
     for(let d=1;d<=31;d++){
       if(d>dim){pg.appendChild(cell('pg-cell empty',''));continue;}
@@ -622,6 +639,7 @@ function showPop(key,e){
   document.getElementById('popD').textContent=new Date(key+'T00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   document.getElementById('popMood').textContent='Humeur · '+MOOD_LBL[e.mood-1];
   document.getElementById('popEn').innerHTML='<span class="k">Énergie</span>'+ENERGY_LBL[e.energy]+' ('+e.energy+'/5)';
+  document.getElementById('popSt').innerHTML='<span class="k">Stress</span>'+(e.stress?STRESS_LBL[e.stress]+' ('+e.stress+'/5)':'–');
   const ac=autoChips(e).map(c=>c.l+' '+c.v).join(' · ');
   document.getElementById('popA').innerHTML=ac?'<span class="k">Récupéré tout seul</span>'+esc(ac):'';
   const lc=lifeChips(e).map(c=>c.l+' '+c.v).join(' · ');
@@ -669,12 +687,12 @@ function buildAnalysis(){
 
   // corrélations entre toutes les données
   const VARS=[
-    {k:'Humeur',f:e=>e.mood},{k:'Énergie',f:e=>e.energy},
+    {k:'Humeur',f:e=>e.mood},{k:'Énergie',f:e=>e.energy},{k:'Stress',f:e=>e.stress},
     {k:'Sommeil',f:e=>e.auto&&e.auto.sleep},{k:'Pas',f:e=>e.auto&&e.auto.steps},
     {k:'FC repos',f:e=>e.auto&&e.auto.rhr},{k:'Poids',f:e=>e.auto&&e.auto.weight},
     {k:'Cal. actives',f:e=>e.auto&&e.auto.active},{k:'Écran',f:e=>e.auto&&e.auto.screen},
     {k:'Soleil',f:e=>e.auto&&e.auto.weather&&e.auto.weather.sun},
-    {k:'Café',f:e=>e.coffee},{k:'Thé',f:e=>e.tea},{k:'Alcool',f:e=>e.alcohol},
+    {k:'Café',f:e=>e.coffee},{k:'Thé',f:e=>e.tea},{k:'Soda',f:e=>e.soda},{k:'Alcool',f:e=>e.alcohol},
     {k:'Bonbons',f:e=>e.candy},{k:'Apéro',f:e=>e.apero},{k:'Sport km',f:e=>e.garmin?e.garmin.dist:0}
   ];
   function pear(xs,ys){const n=xs.length;if(n<5)return null;const mx=xs.reduce((a,b)=>a+b,0)/n,my=ys.reduce((a,b)=>a+b,0)/n;let sxy=0,sx=0,sy=0;for(let i=0;i<n;i++){const dx=xs[i]-mx,dy=ys[i]-my;sxy+=dx*dy;sx+=dx*dx;sy+=dy*dy;}return(sx===0||sy===0)?null:sxy/Math.sqrt(sx*sy);}
@@ -740,7 +758,9 @@ const SYNC_KEY='carnet_sync';
 const Sync={read(){try{return JSON.parse(localStorage.getItem(SYNC_KEY))||{};}catch(e){return {};}},
   write(c){try{localStorage.setItem(SYNC_KEY,JSON.stringify(c));}catch(e){}}};
 async function fetchBin(id,key){
-  const r=await fetch('https://api.jsonbin.io/v3/b/'+encodeURIComponent(id)+'/latest',{headers:{'X-Access-Key':key}});
+  const url='https://api.jsonbin.io/v3/b/'+encodeURIComponent(id)+'/latest';
+  let r=await fetch(url,{headers:{'X-Master-Key':key}});
+  if(r.status===401||r.status===403)r=await fetch(url,{headers:{'X-Access-Key':key}});
   if(!r.ok)throw new Error('HTTP '+r.status);
   return (await r.json()).record;
 }
@@ -770,7 +790,6 @@ async function testSettings(){
   }catch(e){setSyncStatus('Échec ('+e.message+'). Vérifie le Bin ID et la clé de lecture.',false);}
 }
 
-document.getElementById('mastYear').textContent=today.getFullYear();
 ingestURLParams();
 buildToday();
 fetchWeather();
