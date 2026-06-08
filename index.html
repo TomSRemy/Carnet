@@ -764,12 +764,19 @@ async function fetchBin(id,key){
   if(!r.ok)throw new Error('HTTP '+r.status);
   return (await r.json()).record;
 }
+function normDate(s){
+  s=(''+(s||'')).trim();let m;
+  if(m=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/))return m[1]+'-'+m[2].padStart(2,'0')+'-'+m[3].padStart(2,'0');
+  if(m=s.match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{4})/))return m[3]+'-'+m[2].padStart(2,'0')+'-'+m[1].padStart(2,'0');
+  return null;
+}
 function mergeAuto(rec){
-  if(!rec||!rec.date)return false;
-  const d=Store.read();const e=d.entries[rec.date]||{};
+  if(!rec)return false;
+  const key=normDate(rec.date);if(!key)return false;
+  const d=Store.read();const e=d.entries[key]||{};
   if(rec.auto&&typeof rec.auto==='object')e.auto={...(e.auto||{}),...rec.auto};
   if(rec.garmin&&typeof rec.garmin==='object')e.garmin={...(e.garmin||{}),...rec.garmin};
-  d.entries[rec.date]=e;Store.write(d);return true;
+  d.entries[key]=e;Store.write(d);return true;
 }
 async function syncFromBin(silent){
   const c=Sync.read();if(!c.binId||!c.readKey)return;
