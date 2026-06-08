@@ -58,6 +58,7 @@
     display:flex;align-items:center;gap:7px;margin:20px 0 12px;padding-top:28px;border-top:1px dotted var(--line)}
   .lbl.first{border-top:none;padding-top:18px}
   .lbl .sq{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+  .emo{font-size:14px;line-height:1;flex-shrink:0}
   .lbl .opt{letter-spacing:.3px;text-transform:none;color:var(--tx2);font-weight:400;opacity:.7}
 
   .autop{display:flex;flex-wrap:wrap;gap:7px}
@@ -84,6 +85,9 @@
   .ebar i{display:block;width:100%;height:0;background:var(--mint);transition:height .3s cubic-bezier(.2,.8,.2,1)}
   .ebar.on i{height:100%}
   .energy-cap{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx2);text-align:right;margin-top:6px;font-weight:600}
+  .eslider{-webkit-appearance:none;appearance:none;width:100%;height:10px;border-radius:6px;background:var(--surf);border:1px solid var(--surfb);outline:none;margin:6px 0 2px}
+  .eslider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:28px;height:28px;border-radius:50%;background:var(--mint);border:4px solid var(--ink);cursor:pointer}
+  .eslider::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--mint);border:4px solid var(--ink);cursor:pointer}
 
   .pills{display:flex;gap:7px;flex-wrap:wrap}
   .pill{flex:1;min-width:50px;padding:12px 8px;border:1px solid var(--surfb);border-radius:6px;
@@ -179,6 +183,20 @@
   .cmh{font-size:8px;color:var(--tx2);text-align:center;display:flex;align-items:center;justify-content:center}
   .cmcell{aspect-ratio:1;border-radius:2px;background:var(--surf)}
   .cmkey{font-size:9px;color:var(--tx2);line-height:1.7;margin-top:8px}
+  .masthead{position:relative}
+  .gear{position:absolute;right:0;top:0;background:none;border:1px solid var(--line);color:var(--tx2);font-family:inherit;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 10px;border-radius:7px}
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:18px;z-index:60}
+  .modal.open{display:flex}
+  .modal-card{background:#07273a;border:1px solid var(--line);border-radius:14px;padding:20px;max-width:440px;width:100%;max-height:90vh;overflow:auto}
+  .modal-card h3{font-size:14px;letter-spacing:1px;text-transform:uppercase;color:var(--tx);font-weight:600;margin-bottom:8px}
+  .modal-intro{font-size:12px;color:var(--tx2);line-height:1.5;margin-bottom:6px}
+  .field{margin:14px 0}
+  .field label{display:block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx2);margin-bottom:6px;font-weight:600}
+  .field input{width:100%;background:var(--surf);border:1px solid var(--line);color:var(--tx);border-radius:9px;padding:11px;font-family:inherit;font-size:14px}
+  .sync-status{font-size:12px;margin-top:10px;min-height:16px;line-height:1.4}
+  .modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+  .btn{background:var(--surf);border:1px solid var(--line);color:var(--tx);font-family:inherit;font-size:12px;letter-spacing:.5px;text-transform:uppercase;padding:10px 14px;border-radius:9px;font-weight:600}
+  .btn.primary{background:var(--mint);border-color:var(--mint);color:#012018}
 
   .data-row{display:flex;gap:9px;margin-top:8px}
   .data-row button{flex:1;padding:12px;border:1px solid var(--surfb);background:var(--surf);border-radius:6px;
@@ -217,9 +235,24 @@
 <body class="theme-today">
 <div class="wrap">
   <header>
-    <div class="masthead"><h1>Carnet</h1><span class="yr" id="mastYear">2026</span></div>
+    <div class="masthead"><h1>Carnet</h1><span class="yr" id="mastYear">2026</span><button class="gear" id="gearBtn">Réglages</button></div>
     <div class="subhead">Rapport quotidien personnel</div>
   </header>
+
+  <div class="modal" id="settingsModal">
+    <div class="modal-card">
+      <h3>Synchronisation</h3>
+      <p class="modal-intro">Colle l'identifiant de ton tiroir en ligne et ta clé de lecture (lecture seule). Ces infos restent sur ce téléphone. Ton humeur et tes mots ne partent jamais en ligne.</p>
+      <div class="field"><label>Bin ID</label><input id="cfgBin" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ex : 664f8a2e1f5a..."></div>
+      <div class="field"><label>Clé de lecture</label><input id="cfgKey" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="$2a$10$..."></div>
+      <div class="sync-status" id="syncStatus"></div>
+      <div class="modal-btns">
+        <button class="btn" id="cfgClose">Fermer</button>
+        <button class="btn" id="cfgSave">Enregistrer</button>
+        <button class="btn primary" id="cfgTest">Tester</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ============ AUJOURD'HUI ============ -->
   <section class="view active" id="view-today">
@@ -227,32 +260,35 @@
       <div class="date-head" id="todayDate"></div>
       <div class="date-sub" id="todayStatus"></div>
 
-      <div class="lbl first" style="margin-top:18px"><span class="sq" style="background:var(--c-steps)"></span>Récupéré tout seul</div>
+      <div class="lbl first" style="margin-top:18px"><span class="emo">📲</span>Récupéré tout seul</div>
       <div class="autop" id="autoPanel"></div>
 
-      <div class="lbl"><span class="sq" style="background:var(--m3)"></span>Humeur</div>
+      <div class="lbl"><span class="emo">🙂</span>Humeur</div>
       <div class="moods" id="moods"></div>
       <div class="mood-labels" id="moodLabels"><span>Mauvaise</span><span>Maussade</span><span>Mitigée</span><span>Bonne</span><span>Radieuse</span></div>
 
-      <div class="lbl"><span class="sq" style="background:var(--mint)"></span>Énergie</div>
-      <div class="energy" id="energy"></div>
+      <div class="lbl"><span class="emo">⚡</span>Énergie</div>
+      <input type="range" class="eslider" id="energy" min="1" max="5" step="1" value="3">
       <div class="energy-cap" id="energyCap">&nbsp;</div>
 
-      <div class="lbl"><span class="sq" style="background:var(--c-coffee)"></span>Consommation</div>
+      <div class="lbl"><span class="emo">🍽️</span>Consommation</div>
       <div class="cgrid">
-        <div class="citem"><div class="clbl"><span class="sq" style="background:var(--c-coffee)"></span>Cafés</div><div class="stepper sm" id="qCoffee"></div></div>
-        <div class="citem"><div class="clbl"><span class="sq" style="background:var(--c-tea)"></span>Thés</div><div class="stepper sm" id="qTea"></div></div>
-        <div class="citem"><div class="clbl"><span class="sq" style="background:var(--c-candy)"></span>Bonbons</div><div class="stepper sm" id="qCandy"></div></div>
-        <div class="citem"><div class="clbl"><span class="sq" style="background:var(--c-rhr)"></span>Alcool</div><div class="stepper sm" id="qAlcohol"></div></div>
+        <div class="citem"><div class="clbl"><span class="emo">☕</span>Cafés</div><div class="stepper sm" id="qCoffee"></div></div>
+        <div class="citem"><div class="clbl"><span class="emo">🍵</span>Thés</div><div class="stepper sm" id="qTea"></div></div>
+        <div class="citem"><div class="clbl"><span class="emo">🍷</span>Alcool</div><div class="stepper sm" id="qAlcohol"></div></div>
       </div>
+      <div class="clbl" style="margin-top:16px"><span class="emo">🍬</span>Bonbons</div>
+      <div class="pills" id="qCandy"></div>
+      <div class="clbl" style="margin-top:12px"><span class="emo">🥨</span>Chips / apéro</div>
+      <div class="pills" id="qApero"></div>
 
-      <div class="lbl"><span class="sq" style="background:var(--c-music)"></span>Avec qui <span class="opt">plusieurs</span></div>
+      <div class="lbl"><span class="emo">👥</span>Avec qui <span class="opt">plusieurs</span></div>
       <div class="pills" id="qWho"></div>
 
-      <div class="lbl"><span class="sq" style="background:var(--c-screen)"></span>Journée de travail</div>
+      <div class="lbl"><span class="emo">💼</span>Journée de travail</div>
       <div class="pills" id="qWork"></div>
 
-      <div class="lbl"><span class="sq" style="background:var(--tx)"></span>Le moment de la journée</div>
+      <div class="lbl"><span class="emo">📝</span>Le moment de la journée</div>
       <textarea class="note" id="note" rows="3" maxlength="180" placeholder="Un truc qui a marqué ta journée…"></textarea>
       <div class="count"><span id="count">0</span>/180</div>
 
@@ -270,7 +306,7 @@
     <div class="stats" id="stats"></div>
     <div class="stats" id="statsSport" style="display:none;border-bottom:1px dotted var(--line)"></div>
 
-    <div class="section-t"><span class="sq" style="background:var(--m3)"></span>L'année en couleurs</div>
+    <div class="section-t"><span class="emo">📅</span>L'année en couleurs</div>
     <div class="grid-scroll"><div class="pgrid" id="pgrid"></div></div>
     <div class="legend">
       <span>Mauvaise</span>
@@ -279,13 +315,13 @@
       <span>Radieuse</span>
     </div>
 
-    <div class="section-t"><span class="sq" style="background:var(--m4)"></span>Humeur moyenne par mois</div>
+    <div class="section-t"><span class="emo">📊</span>Humeur moyenne par mois</div>
     <div class="mbars" id="mbars"></div>
 
-    <div class="section-t"><span class="sq" style="background:var(--canary)"></span>Les moments</div>
+    <div class="section-t"><span class="emo">✨</span>Les moments</div>
     <div id="moments"></div>
 
-    <div class="section-t"><span class="sq" style="background:var(--c-tasks)"></span>Sauvegarde</div>
+    <div class="section-t"><span class="emo">💾</span>Sauvegarde</div>
     <div class="data-row">
       <button id="exportBtn">↓ Exporter</button>
       <button id="importBtn">↑ Importer</button>
@@ -296,11 +332,11 @@
   <!-- ============ ANALYSE ============ -->
   <section class="view" id="view-analyse">
     <div class="yr-nav" style="justify-content:flex-start"><div class="yr">Analyse</div></div>
-    <div class="section-t" style="border-top:none;margin-top:0;padding-top:0"><span class="sq" style="background:var(--mint)"></span>Ce qui pèse sur ton humeur</div>
+    <div class="section-t" style="border-top:none;margin-top:0;padding-top:0"><span class="emo">⚖️</span>Ce qui pèse sur ton humeur</div>
     <div id="facts"></div>
-    <div class="section-t"><span class="sq" style="background:var(--canary)"></span>Mots qui reviennent</div>
+    <div class="section-t"><span class="emo">💬</span>Mots qui reviennent</div>
     <div class="words" id="words"></div>
-    <div class="section-t"><span class="sq" style="background:var(--canary)"></span>Corrélations entre les données</div>
+    <div class="section-t"><span class="emo">🔗</span>Corrélations entre les données</div>
     <div class="corrlist" id="corrTop"></div>
     <div class="cmatrix" id="corrMatrix"></div>
     <div style="font-size:10px;color:var(--tx2);margin-top:10px;line-height:1.5">Coefficient de Pearson entre paires de jours (vert positif, rouge négatif). À lire avec prudence : avec peu de données beaucoup de liens sont dus au hasard, et corrélation n'est pas causalité.</div>
@@ -336,6 +372,7 @@ const MOOD_LBL=['Mauvaise','Maussade','Mitigée','Bonne','Radieuse'];
 const ENERGY_LBL=['','Vidé','Mollo','Correct','En forme','À fond'];
 const MONTHS=['janv','févr','mars','avr','mai','juin','juil','août','sept','oct','nov','déc'];
 const CNT_LBL=['0','1','2','3+'];
+const CANDY_LBL=['Non','Un peu','Beaucoup'];
 const WHO_LBL=['Seul','Famille','Collègues','Amis'];
 const WORK_LBL=['Off','Molle','Correcte','Grosse'];
 
@@ -367,7 +404,7 @@ const esc=s=>(''+s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"'
 const today=new Date();
 const todayKey=iso(today);
 let selMood=null,selEnergy=null,viewYear=today.getFullYear();
-let extra={coffee:0,tea:0,candy:0,alcohol:0,who:[],work:null};
+let extra={coffee:0,tea:0,candy:null,alcohol:0,apero:null,who:[],work:null};
 
 function fmtScreen(min){const h=Math.floor(min/60),m=Math.round(min%60);return h?`${h} h${m?' '+m:''}`:`${m} min`;}
 function fmtH(hours){const h=Math.floor(hours),m=Math.round((hours-h)*60);return m?`${h} h ${pad(m)}`:`${h} h`;}
@@ -378,7 +415,8 @@ function whoText(arr){return (arr&&arr.length)?arr.map(i=>WHO_LBL[i]).join(' + '
 function lifeChips(e){const o=[];
   if(e.coffee)o.push({l:'Café',v:e.coffee});
   if(e.tea)o.push({l:'Thé',v:e.tea});
-  if(e.candy)o.push({l:'Bonbons',v:e.candy});
+  if(e.candy)o.push({l:'Bonbons',v:CANDY_LBL[e.candy]});
+  if(e.apero)o.push({l:'Apéro',v:CANDY_LBL[e.apero]});
   if(e.alcohol)o.push({l:'Alcool',v:e.alcohol});
   if(e.who&&e.who.length)o.push({l:'Avec',v:whoText(e.who)});
   if(e.work!=null)o.push({l:'Travail',v:WORK_LBL[e.work]});
@@ -437,6 +475,7 @@ function renderAutoPanel(){
 }
 function buildPills(id,labels,key,prefill){
   const el=document.getElementById(id);el.innerHTML='';
+  extra[key]=(typeof prefill==='number')?prefill:null;
   labels.forEach((lab,i)=>{const b=document.createElement('button');
     b.className='pill'+(prefill===i?' sel':'');b.textContent=lab;
     b.onclick=()=>{extra[key]=i;[...el.children].forEach((c,j)=>c.classList.toggle('sel',j===i));};
@@ -469,31 +508,29 @@ function buildToday(){
     b.className='mood';b.style.background=m.c;
     b.onclick=()=>{selMood=i+1;[...moodsEl.children].forEach((c,j)=>c.classList.toggle('sel',j===i));[...labelsEl.children].forEach((c,j)=>c.classList.toggle('sel',j===i));refreshSave();};
     moodsEl.appendChild(b);});
-  const enEl=document.getElementById('energy');enEl.innerHTML='';
-  for(let i=1;i<=5;i++){const b=document.createElement('button');
-    b.className='ebar';b.innerHTML='<i></i>';
-    b.onclick=()=>{selEnergy=i;[...enEl.children].forEach((c,j)=>c.classList.toggle('on',j<i));
-      document.getElementById('energyCap').textContent=ENERGY_LBL[i];refreshSave();};
-    enEl.appendChild(b);}
+  const enEl=document.getElementById('energy');
+  function setEnergy(v){selEnergy=v;enEl.value=v;document.getElementById('energyCap').textContent=ENERGY_LBL[v];
+    const p=(v-1)/4*100;enEl.style.background=`linear-gradient(to right,var(--mint) 0%,var(--mint) ${p}%,var(--surf) ${p}%,var(--surf) 100%)`;refreshSave();}
+  enEl.oninput=()=>setEnergy(parseInt(enEl.value));
   const note=document.getElementById('note');
   note.oninput=()=>{document.getElementById('count').textContent=note.value.length;};
 
   const e=Store.read().entries[todayKey];
   const status=document.getElementById('todayStatus');
-  selMood=null;selEnergy=null;extra={coffee:0,tea:0,candy:0,alcohol:0,who:[],work:null};
+  selMood=null;selEnergy=null;extra={coffee:0,tea:0,candy:null,alcohol:0,apero:null,who:[],work:null};
   if(e&&e.mood){
     selMood=e.mood;selEnergy=e.energy;note.value=e.note||'';
     document.getElementById('count').textContent=note.value.length;
     [...moodsEl.children].forEach((c,j)=>c.classList.toggle('sel',j===e.mood-1));
     [...labelsEl.children].forEach((c,j)=>c.classList.toggle('sel',j===e.mood-1));
-    [...enEl.children].forEach((c,j)=>c.classList.toggle('on',j<e.energy));
-    document.getElementById('energyCap').textContent=ENERGY_LBL[e.energy];
+    setEnergy(e.energy);
     status.textContent='Déjà rempli · tu peux modifier';
-  }else{status.textContent='À toi de jouer';}
+  }else{status.textContent='À toi de jouer';setEnergy(3);}
   const ec=e||{};
   buildStepper('qCoffee','coffee',ec.coffee||0,20,'');
   buildStepper('qTea','tea',ec.tea||0,20,'');
-  buildStepper('qCandy','candy',ec.candy||0,30,'');
+  buildPills('qCandy',CANDY_LBL,'candy',(typeof ec.candy==='number')?ec.candy:null);
+  buildPills('qApero',CANDY_LBL,'apero',(typeof ec.apero==='number')?ec.apero:null);
   buildStepper('qAlcohol','alcohol',ec.alcohol||0,30,'');
   buildMultiPills('qWho',WHO_LBL,'who',ec.who||[],0);
   buildPills('qWork',WORK_LBL,'work',ec.work??null);
@@ -505,7 +542,7 @@ document.getElementById('saveBtn').onclick=()=>{
   if(!(selMood&&selEnergy))return;
   const d=Store.read();const prev=d.entries[todayKey]||{};
   d.entries[todayKey]={...prev,mood:selMood,energy:selEnergy,note:document.getElementById('note').value.trim(),
-    coffee:extra.coffee,tea:extra.tea,candy:extra.candy,alcohol:extra.alcohol,who:extra.who,work:extra.work};
+    coffee:extra.coffee,tea:extra.tea,candy:extra.candy,alcohol:extra.alcohol,apero:extra.apero,who:extra.who,work:extra.work};
   Store.write(d);celebrate();toast('Enregistré');
   const btn=document.getElementById('saveBtn');btn.classList.add('done');btn.textContent='Noté';
   setTimeout(()=>{btn.classList.remove('done');btn.textContent='Mettre à jour';},1600);
@@ -638,7 +675,7 @@ function buildAnalysis(){
     {k:'Cal. actives',f:e=>e.auto&&e.auto.active},{k:'Écran',f:e=>e.auto&&e.auto.screen},
     {k:'Soleil',f:e=>e.auto&&e.auto.weather&&e.auto.weather.sun},
     {k:'Café',f:e=>e.coffee},{k:'Thé',f:e=>e.tea},{k:'Alcool',f:e=>e.alcohol},
-    {k:'Bonbons',f:e=>e.candy},{k:'Sport km',f:e=>e.garmin?e.garmin.dist:0}
+    {k:'Bonbons',f:e=>e.candy},{k:'Apéro',f:e=>e.apero},{k:'Sport km',f:e=>e.garmin?e.garmin.dist:0}
   ];
   function pear(xs,ys){const n=xs.length;if(n<5)return null;const mx=xs.reduce((a,b)=>a+b,0)/n,my=ys.reduce((a,b)=>a+b,0)/n;let sxy=0,sx=0,sy=0;for(let i=0;i<n;i++){const dx=xs[i]-mx,dy=ys[i]-my;sxy+=dx*dy;sx+=dx*dx;sy+=dy*dy;}return(sx===0||sy===0)?null:sxy/Math.sqrt(sx*sy);}
   function pr(a,b){const xs=[],ys=[];entries.forEach(e=>{const x=a.f(e),y=b.f(e);if(typeof x==='number'&&isFinite(x)&&typeof y==='number'&&isFinite(y)){xs.push(x);ys.push(y);}});return{r:pear(xs,ys),n:xs.length};}
@@ -698,10 +735,52 @@ document.querySelectorAll('.tab').forEach(t=>{
   };
 });
 
+// ---- synchronisation JSONBin (lecture seule côté app) ----
+const SYNC_KEY='carnet_sync';
+const Sync={read(){try{return JSON.parse(localStorage.getItem(SYNC_KEY))||{};}catch(e){return {};}},
+  write(c){try{localStorage.setItem(SYNC_KEY,JSON.stringify(c));}catch(e){}}};
+async function fetchBin(id,key){
+  const r=await fetch('https://api.jsonbin.io/v3/b/'+encodeURIComponent(id)+'/latest',{headers:{'X-Access-Key':key}});
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  return (await r.json()).record;
+}
+function mergeAuto(rec){
+  if(!rec||!rec.date)return false;
+  const d=Store.read();const e=d.entries[rec.date]||{};
+  if(rec.auto&&typeof rec.auto==='object')e.auto={...(e.auto||{}),...rec.auto};
+  if(rec.garmin&&typeof rec.garmin==='object')e.garmin={...(e.garmin||{}),...rec.garmin};
+  d.entries[rec.date]=e;Store.write(d);return true;
+}
+async function syncFromBin(silent){
+  const c=Sync.read();if(!c.binId||!c.readKey)return;
+  try{const rec=await fetchBin(c.binId,c.readKey);if(mergeAuto(rec)){renderAutoPanel();if(typeof buildBilan==='function'&&document.getElementById('view-bilan').classList.contains('active'))buildBilan();}}
+  catch(e){if(!silent)console.warn('sync',e);}
+}
+function setSyncStatus(t,ok){const el=document.getElementById('syncStatus');el.textContent=t;el.style.color=ok?'var(--mint)':'var(--coral)';}
+function openSettings(){const c=Sync.read();document.getElementById('cfgBin').value=c.binId||'';document.getElementById('cfgKey').value=c.readKey||'';setSyncStatus('',true);document.getElementById('settingsModal').classList.add('open');}
+function closeSettings(){document.getElementById('settingsModal').classList.remove('open');}
+function saveSettings(){Sync.write({binId:document.getElementById('cfgBin').value.trim(),readKey:document.getElementById('cfgKey').value.trim()});setSyncStatus('Enregistré.',true);}
+async function testSettings(){
+  const binId=document.getElementById('cfgBin').value.trim(),readKey=document.getElementById('cfgKey').value.trim();
+  if(!binId||!readKey){setSyncStatus('Renseigne les deux champs.',false);return;}
+  setSyncStatus('Test en cours...',true);
+  try{const rec=await fetchBin(binId,readKey);Sync.write({binId,readKey});
+    if(rec&&rec.date){mergeAuto(rec);renderAutoPanel();setSyncStatus('Connecté. Dernière donnée reçue : '+rec.date,true);}
+    else setSyncStatus('Connecté. Le tiroir est encore vide, c\'est normal.',true);
+  }catch(e){setSyncStatus('Échec ('+e.message+'). Vérifie le Bin ID et la clé de lecture.',false);}
+}
+
 document.getElementById('mastYear').textContent=today.getFullYear();
 ingestURLParams();
 buildToday();
 fetchWeather();
+document.getElementById('gearBtn').onclick=openSettings;
+document.getElementById('cfgClose').onclick=closeSettings;
+document.getElementById('cfgSave').onclick=saveSettings;
+document.getElementById('cfgTest').onclick=testSettings;
+document.getElementById('settingsModal').addEventListener('click',e=>{if(e.target.id==='settingsModal')closeSettings();});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncFromBin(true);});
+syncFromBin(true);
 </script>
 </body>
 </html>
