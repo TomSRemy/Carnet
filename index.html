@@ -857,9 +857,12 @@ function mergeAuto(rec){
 }
 function distribute(e,obj){
   const G={act:1,dist:1,dur:1};
+  const ok=(v)=>{if(v==null||v==='')return false;if(typeof v==='number')return isFinite(v)&&v!==0;return true;};
+  const merge=(t,src)=>{const o={...(t||{})};Object.keys(src).forEach(k=>{if(ok(src[k]))o[k]=src[k];});return o;};
   Object.keys(obj).forEach(k=>{const v=obj[k];
-    if(k==='auto'&&v&&typeof v==='object'){e.auto={...(e.auto||{}),...v};return;}
-    if(k==='garmin'&&v&&typeof v==='object'){e.garmin={...(e.garmin||{}),...v};return;}
+    if(k==='auto'&&v&&typeof v==='object'){e.auto=merge(e.auto,v);return;}
+    if(k==='garmin'&&v&&typeof v==='object'){e.garmin=merge(e.garmin,v);return;}
+    if(!ok(v))return;
     if(G[k])e.garmin={...(e.garmin||{}),[k]:v};
     else e.auto={...(e.auto||{}),[k]:v};});
 }
