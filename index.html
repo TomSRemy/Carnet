@@ -52,6 +52,10 @@
   .card{background:none;border:none;padding:0;margin:0}
 
   .date-head{font-family:'Outfit',sans-serif;font-weight:300;font-size:28px;letter-spacing:1px;text-transform:uppercase;line-height:1.05;margin-top:14px}
+  .dnav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:14px}
+  .dnav .date-head{margin-top:0;flex:1;text-align:center;font-size:22px}
+  .dn{background:none;border:1px solid var(--line);color:var(--tx2);width:40px;height:40px;border-radius:9px;font-size:22px;line-height:1;flex-shrink:0}
+  .dn:disabled{opacity:.25}
   .date-sub{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--tx2);font-weight:600;margin-top:6px}
 
   .lbl{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--tx);font-weight:600;
@@ -145,7 +149,7 @@
   .section-t .sq{width:9px;height:9px;border-radius:2px}
 
   .grid-scroll{overflow:visible;margin:0;padding:0}
-  .pgrid{display:grid;grid-template-columns:13px repeat(31,1fr);gap:1.5px}
+  .pgrid{display:grid;grid-template-columns:13px repeat(31,minmax(0,1fr));gap:1.5px;width:100%}
   .pg-mlabel{font-size:8px;letter-spacing:0;text-transform:uppercase;color:var(--tx2);display:flex;align-items:center;justify-content:center;height:100%;font-weight:600}
   .pg-cell{aspect-ratio:1;border-radius:2px;background:var(--surf)}
   .pg-cell.has{cursor:pointer}
@@ -158,6 +162,18 @@
   .mb{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;justify-content:flex-end}
   .mb .bar{width:100%;border-radius:2px;min-height:2px;transition:height .5s cubic-bezier(.2,.8,.2,1)}
   .mb .ml{font-size:8px;text-transform:uppercase;color:var(--tx2);font-weight:600}
+  .mini-cap{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx2);font-weight:600;margin:0 0 5px}
+  .drow{display:flex;align-items:center;gap:9px;padding:5px 0}
+  .dlab{font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--tx2);width:64px;flex-shrink:0;font-weight:600}
+  .dtrack{flex:1;height:9px;background:var(--surf);border-radius:3px;overflow:hidden}
+  .dfill{height:100%;border-radius:3px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+  .dcnt{font-size:11px;color:var(--tx2);width:24px;text-align:right;font-variant-numeric:tabular-nums;flex-shrink:0}
+  .auto-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .acard{border:1px solid var(--line);border-radius:9px;padding:12px 13px}
+  .acard .k{font-size:9px;letter-spacing:1.2px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+  .acard .v{font-family:'Outfit',sans-serif;font-weight:300;font-size:25px;line-height:1;color:var(--tx)}
+  .acard .v small{font-size:11px;color:var(--tx2);font-weight:400}
+  .acard svg{width:100%;height:26px;margin-top:9px;display:block;overflow:visible}
 
   .moment{padding:12px 0;border-top:1px dotted var(--line);display:flex;gap:11px;align-items:flex-start}
   .moment .dot{width:9px;height:9px;border-radius:2px;flex-shrink:0;margin-top:5px}
@@ -260,7 +276,7 @@
   <!-- ============ AUJOURD'HUI ============ -->
   <section class="view active" id="view-today">
     <div class="card">
-      <div class="date-head" id="todayDate"></div>
+      <div class="dnav"><button class="dn" id="dPrev">‹</button><div class="date-head" id="todayDate"></div><button class="dn" id="dNext">›</button></div>
       <div class="date-sub" id="todayStatus"></div>
 
       <div class="lbl first" style="margin-top:18px"><span class="emo"><svg viewBox="0 0 24 24"><path d="M12 3v10m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></span>Récupéré tout seul</div>
@@ -326,6 +342,32 @@
     <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M6 21v-7M11 21V6M16 21v-10"/></svg></span>Humeur moyenne par mois</div>
     <div class="mbars" id="mbars"></div>
 
+    <div class="fblock" id="fbEnerStress">
+      <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>Énergie &amp; stress par mois</div>
+      <div class="mini-cap">Énergie</div><div class="mbars" id="ebars"></div>
+      <div class="mini-cap" style="margin-top:14px">Stress</div><div class="mbars" id="sbars"></div>
+    </div>
+
+    <div class="fblock" id="fbDist">
+      <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h11M4 18h7"/></svg></span>Répartition des humeurs</div>
+      <div class="dist" id="moodDist"></div>
+    </div>
+
+    <div class="fblock" id="fbDow">
+      <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></span>L'humeur selon le jour</div>
+      <div class="mbars" id="dowBars"></div>
+    </div>
+
+    <div class="fblock" id="fbAuto">
+      <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><path d="M3 12h4l2 6 4-14 2 8h6"/></svg></span>Corps &amp; rythme</div>
+      <div class="auto-cards" id="autoCards"></div>
+    </div>
+
+    <div class="fblock" id="fbConso">
+      <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><path d="M5 8h11v5a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5z"/><path d="M16 9h2a2 2 0 0 1 0 4h-2M8 3v2M11 3v2"/></svg></span>Consommation de l'année</div>
+      <div class="auto-cards" id="consoCards"></div>
+    </div>
+
     <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><path d="M12 3c0 5 1 6 6 6-5 0-6 1-6 6 0-5-1-6-6-6 5 0 6-1 6-6z"/></svg></span>Les moments</div>
     <div id="moments"></div>
 
@@ -370,6 +412,7 @@
     <div class="pi" id="popA"></div>
     <div class="pi" id="popL"></div>
     <div class="pn" id="popN"></div>
+    <button id="popEdit">Éditer ce jour</button>
     <button onclick="document.getElementById('pop').classList.remove('show')">Fermer</button>
   </div>
 </div>
@@ -414,6 +457,7 @@ const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const esc=s=>(''+s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const today=new Date();
 const todayKey=iso(today);
+let editKey=todayKey;let popKey=null;
 let selMood=null,selEnergy=null,selStress=3,viewYear=today.getFullYear();
 let extra={coffee:0,tea:0,soda:0,candy:null,alcohol:0,apero:null,who:[],work:null};
 
@@ -479,7 +523,7 @@ function fetchWeather(){
 }
 
 function renderAutoPanel(){
-  const e=Store.read().entries[todayKey];
+  const e=Store.read().entries[editKey];
   const el=document.getElementById('autoPanel');
   const chips=e?autoChips(e):[];
   el.innerHTML=chips.length?chips.map(chipHTML).join('')
@@ -531,7 +575,7 @@ function buildToday(){
   const note=document.getElementById('note');
   note.oninput=()=>{document.getElementById('count').textContent=note.value.length;};
 
-  const e=Store.read().entries[todayKey];
+  const e=Store.read().entries[editKey];
   const status=document.getElementById('todayStatus');
   selMood=null;selEnergy=null;selStress=3;extra={coffee:0,tea:0,soda:0,candy:null,alcohol:0,apero:null,who:[],work:null};
   if(e&&e.mood){
@@ -551,14 +595,17 @@ function buildToday(){
   buildStepper('qAlcohol','alcohol',ec.alcohol||0,30,'');
   buildMultiPills('qWho',WHO_LBL,'who',ec.who||[],0);
   buildPills('qWork',WORK_LBL,'work',ec.work??null);
-  document.getElementById('todayDate').textContent=today.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('todayDate').textContent=new Date(editKey+'T00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('dNext').disabled=(editKey>=todayKey);
+  if(editKey!==todayKey){const y=new Date(today);y.setDate(y.getDate()-1);const rel=editKey===iso(y)?'hier':'jour passé';
+    document.getElementById('todayStatus').textContent=((e&&e.mood)?'Déjà rempli':'À compléter')+' · '+rel;}
   renderAutoPanel();refreshSave();
 }
 function refreshSave(){document.getElementById('saveBtn').disabled=!(selMood&&selEnergy);}
 document.getElementById('saveBtn').onclick=()=>{
   if(!(selMood&&selEnergy))return;
-  const d=Store.read();const prev=d.entries[todayKey]||{};
-  d.entries[todayKey]={...prev,mood:selMood,energy:selEnergy,note:document.getElementById('note').value.trim(),
+  const d=Store.read();const prev=d.entries[editKey]||{};
+  d.entries[editKey]={...prev,mood:selMood,energy:selEnergy,note:document.getElementById('note').value.trim(),
     stress:selStress,coffee:extra.coffee,tea:extra.tea,soda:extra.soda,candy:extra.candy,alcohol:extra.alcohol,apero:extra.apero,who:extra.who,work:extra.work};
   Store.write(d);celebrate();toast('Enregistré');
   const btn=document.getElementById('saveBtn');btn.classList.add('done');btn.textContent='Noté';
@@ -624,6 +671,34 @@ function buildBilan(){
       return `<div class="moment"><div class="dot" style="background:${cssVar(MOOD[v.mood-1].c)}"></div><div><div class="mtxt">${esc(v.note)}</div><div class="mdate">${dt}</div></div></div>`;
     }).join('')
     :`<div class="empty-state">Aucun moment noté pour ${viewYear}.</div>`;
+  buildFeltron(yAll,yEntries);
+}
+function monthAvg(list,getter){const out=[];for(let m=0;m<12;m++){const pre=`${viewYear}-${pad(m+1)}`;const vals=list.filter(([k])=>k.startsWith(pre)).map(([,v])=>getter(v)).filter(x=>x!=null&&isFinite(x));out.push(vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0);}return out;}
+function avgAll(list,getter){const v=list.map(([,x])=>getter(x)).filter(x=>x!=null&&isFinite(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length:0;}
+function sumAll(list,getter){return list.map(([,x])=>getter(x)).filter(x=>x!=null&&isFinite(x)).reduce((a,b)=>a+b,0);}
+function fillBars(id,vals,max,colorFn,labels){const el=document.getElementById(id);if(!el)return;el.innerHTML='';vals.forEach((a,i)=>{const w=document.createElement('div');w.className='mb';const h=(max&&a)?Math.round(a/max*100):0;w.innerHTML=`<div class="bar" style="height:${h}%;background:${a?colorFn(a,i):'var(--line)'}"></div><div class="ml">${labels[i]}</div>`;el.appendChild(w);});}
+function sparkSVG(series,color){const pts=series.map((y,i)=>({i,y})).filter(p=>p.y>0);if(pts.length<2)return '<svg viewBox="0 0 100 28" preserveAspectRatio="none"></svg>';const ys=pts.map(p=>p.y),mn=Math.min(...ys),mx=Math.max(...ys),rng=(mx-mn)||1,W=100,H=28,pd=3;const X=i=>pd+(i/11)*(W-2*pd);const Y=y=>H-pd-((y-mn)/rng)*(H-2*pd);const dd=pts.map((p,j)=>(j?'L':'M')+X(p.i).toFixed(1)+' '+Y(p.y).toFixed(1)).join(' ');const dots=pts.map(p=>`<circle cx="${X(p.i).toFixed(1)}" cy="${Y(p.y).toFixed(1)}" r="1.6" fill="${cssVar(color)}"/>`).join('');return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><path d="${dd}" fill="none" stroke="${cssVar(color)}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>${dots}</svg>`;}
+function blk(id,show){const el=document.getElementById(id);if(el)el.style.display=show?'':'none';}
+function acard(label,big,sub,series,color){return `<div class="acard"><div class="k" style="color:${cssVar(color)}">${label}</div><div class="v">${big}${sub?` <small>${sub}</small>`:''}</div>${sparkSVG(series,color)}</div>`;}
+function buildFeltron(yAll,yEntries){
+  const hasES=yEntries.some(([,v])=>v.energy||v.stress);blk('fbEnerStress',hasES);
+  if(hasES){fillBars('ebars',monthAvg(yEntries,v=>v.energy),5,()=>cssVar('var(--mint)'),MONTHS1);
+    fillBars('sbars',monthAvg(yEntries,v=>v.stress),5,()=>cssVar('var(--coral)'),MONTHS1);}
+  blk('fbDist',yEntries.length>0);
+  const dist=[0,0,0,0,0];yEntries.forEach(([,v])=>{if(v.mood)dist[v.mood-1]++;});const dmax=Math.max(1,...dist);
+  document.getElementById('moodDist').innerHTML=dist.map((c,i)=>`<div class="drow"><div class="dlab">${MOOD_LBL[i]}</div><div class="dtrack"><div class="dfill" style="width:${Math.round(c/dmax*100)}%;background:${cssVar(MOOD[i].c)}"></div></div><div class="dcnt">${c}</div></div>`).join('');
+  const dow=Array.from({length:7},()=>[]);
+  yEntries.forEach(([k,v])=>{if(!v.mood)return;const wd=(new Date(k+'T00:00').getDay()+6)%7;dow[wd].push(v.mood);});
+  const dowAvg=dow.map(a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0);blk('fbDow',dowAvg.some(x=>x));
+  fillBars('dowBars',dowAvg,5,a=>cssVar(MOOD[Math.max(0,Math.round(a)-1)].c),['Lun','Mar','Mer','Jeu','Ven','Sam','Dim']);
+  const autoKeys=['sleep','steps','active','rhr','weight','screen','meetings','tasks'];
+  const cards=autoKeys.map(k=>{const fl=AUTO_FIELDS.find(x=>x.k===k);if(!fl)return'';const avg=avgAll(yAll,v=>v.auto&&v.auto[k]);if(!avg)return'';return acard(fl.l,fl.f(avg),'moy.',monthAvg(yAll,v=>v.auto&&v.auto[k]),fl.c);}).filter(Boolean);
+  const km=sumAll(yAll,v=>v.garmin&&v.garmin.dist);
+  if(km>0)cards.push(acard('Distance',km.toLocaleString('fr-FR',{maximumFractionDigits:1}),'km',monthAvg(yAll,v=>v.garmin&&v.garmin.dist),'var(--c-sport)'));
+  document.getElementById('autoCards').innerHTML=cards.join('');blk('fbAuto',cards.length>0);
+  const cdef=[['coffee','Cafés','var(--canary)'],['tea','Thés','var(--mint)'],['soda','Sodas','var(--c-screen)'],['alcohol','Alcools','var(--m2)']];
+  const cc=cdef.map(([k,lab,col])=>{const tot=sumAll(yAll,v=>typeof v[k]==='number'?v[k]:null);if(!tot)return'';return acard(lab,tot,'au total',monthAvg(yAll,v=>typeof v[k]==='number'?v[k]:null),col);}).filter(Boolean);
+  document.getElementById('consoCards').innerHTML=cc.join('');blk('fbConso',cc.length>0);
 }
 function cell(cls,txt){const d=document.createElement('div');d.className=cls;d.textContent=txt;return d;}
 function cssVar(v){return v.startsWith('var(')?getComputedStyle(document.documentElement).getPropertyValue(v.slice(4,-1)).trim()||v:v;}
@@ -635,6 +710,7 @@ function currentStreak(entries){
   return s;
 }
 function showPop(key,e){
+  popKey=key;
   document.getElementById('popBar').style.background=cssVar(MOOD[e.mood-1].c);
   document.getElementById('popD').textContent=new Date(key+'T00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   document.getElementById('popMood').textContent='Humeur · '+MOOD_LBL[e.mood-1];
@@ -749,6 +825,7 @@ document.querySelectorAll('.tab').forEach(t=>{
     const bgmap={today:'#011627',bilan:'#66101F',analyse:'#0C2A26'};
     document.documentElement.style.setProperty('background',bgmap[v]||'#011627','important');
     if(v==='bilan'){viewYear=today.getFullYear();buildBilan();}
+    if(v==='today')buildToday();
     if(v==='analyse')buildAnalysis();
   };
 });
@@ -778,9 +855,27 @@ function mergeAuto(rec){
   if(rec.garmin&&typeof rec.garmin==='object')e.garmin={...(e.garmin||{}),...rec.garmin};
   d.entries[key]=e;Store.write(d);return true;
 }
+function distribute(e,obj){
+  const G={act:1,dist:1,dur:1};
+  Object.keys(obj).forEach(k=>{const v=obj[k];
+    if(k==='auto'&&v&&typeof v==='object'){e.auto={...(e.auto||{}),...v};return;}
+    if(k==='garmin'&&v&&typeof v==='object'){e.garmin={...(e.garmin||{}),...v};return;}
+    if(G[k])e.garmin={...(e.garmin||{}),[k]:v};
+    else e.auto={...(e.auto||{}),[k]:v};});
+}
+function applyRecord(rec){
+  if(!rec||typeof rec!=='object')return 0;
+  if(rec.date&&(rec.auto||rec.garmin))return mergeAuto(rec)?1:0;
+  const d=Store.read();let n=0;
+  Object.keys(rec).forEach(k=>{const key=normDate(k);if(!key)return;
+    let v=rec[k];if(typeof v==='string'){try{v=JSON.parse(v);}catch(e){return;}}
+    if(!v||typeof v!=='object')return;
+    const e=d.entries[key]||{};distribute(e,v);d.entries[key]=e;n++;});
+  if(n)Store.write(d);return n;
+}
 async function syncFromBin(silent){
   const c=Sync.read();if(!c.binId||!c.readKey)return;
-  try{const rec=await fetchBin(c.binId,c.readKey);if(mergeAuto(rec)){renderAutoPanel();if(typeof buildBilan==='function'&&document.getElementById('view-bilan').classList.contains('active'))buildBilan();}}
+  try{const rec=await fetchBin(c.binId,c.readKey);if(applyRecord(rec)){renderAutoPanel();if(typeof buildBilan==='function'&&document.getElementById('view-bilan').classList.contains('active'))buildBilan();}}
   catch(e){if(!silent)console.warn('sync',e);}
 }
 function setSyncStatus(t,ok){const el=document.getElementById('syncStatus');el.textContent=t;el.style.color=ok?'var(--mint)':'var(--coral)';}
@@ -792,8 +887,8 @@ async function testSettings(){
   if(!binId||!readKey){setSyncStatus('Renseigne les deux champs.',false);return;}
   setSyncStatus('Test en cours...',true);
   try{const rec=await fetchBin(binId,readKey);Sync.write({binId,readKey});
-    if(rec&&rec.date){mergeAuto(rec);renderAutoPanel();setSyncStatus('Connecté. Dernière donnée reçue : '+rec.date,true);}
-    else setSyncStatus('Connecté. Le tiroir est encore vide, c\'est normal.',true);
+    const nb=applyRecord(rec);renderAutoPanel();
+    setSyncStatus(nb?('Connecté. '+nb+' jour'+(nb>1?'s':'')+' récupéré'+(nb>1?'s':'')+'.'):'Connecté. Le tiroir est encore vide, c\'est normal.',true);
   }catch(e){setSyncStatus('Échec ('+e.message+'). Vérifie le Bin ID et la clé de lecture.',false);}
 }
 
@@ -805,7 +900,11 @@ document.getElementById('cfgClose').onclick=closeSettings;
 document.getElementById('cfgSave').onclick=saveSettings;
 document.getElementById('cfgTest').onclick=testSettings;
 document.getElementById('settingsModal').addEventListener('click',e=>{if(e.target.id==='settingsModal')closeSettings();});
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncFromBin(true);});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)function shiftDay(delta){const d=new Date(editKey+'T00:00');d.setDate(d.getDate()+delta);const k=iso(d);if(k>todayKey)return;editKey=k;buildToday();}
+document.getElementById('dPrev').onclick=()=>shiftDay(-1);
+document.getElementById('dNext').onclick=()=>shiftDay(1);
+document.getElementById('popEdit').onclick=()=>{if(!popKey)return;editKey=popKey;document.getElementById('pop').classList.remove('show');document.querySelector('.tab[data-view="today"]').click();};
+syncFromBin(true);});
 syncFromBin(true);
 </script>
 </body>
