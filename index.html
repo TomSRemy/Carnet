@@ -264,9 +264,16 @@
       <p class="modal-intro">Colle l'identifiant de ton tiroir en ligne et ta clé de lecture (lecture seule). Ces infos restent sur ce téléphone. Ton humeur et tes mots ne partent jamais en ligne.</p>
       <div class="field"><label>Bin ID</label><input id="cfgBin" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ex : 664f8a2e1f5a..."></div>
       <div class="field"><label>Clé de lecture</label><input id="cfgKey" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="$2a$10$..."></div>
+      <h3 style="margin-top:22px">Sauvegarde</h3>
+      <p class="modal-intro">Sauvegarde automatique de tout ton carnet (ressenti compris) dans une bin de secours privée, à chaque enregistrement. La clé d'écriture reste sur ce téléphone.</p>
+      <div class="field"><label>Bin de secours</label><input id="cfgBkBin" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ex : 6a2bd0b2..."></div>
+      <div class="field"><label>Clé d'écriture</label><input id="cfgBkKey" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="$2a$10$..."></div>
+      <div class="sync-status" id="bkStatus"></div>
+      <div class="sync-status" id="bkLast" style="color:var(--tx3)"></div>
       <div class="sync-status" id="syncStatus"></div>
       <div class="modal-btns">
         <button class="btn" id="cfgClose">Fermer</button>
+        <button class="btn" id="cfgRestore">Restaurer</button>
         <button class="btn" id="cfgSave">Enregistrer</button>
         <button class="btn primary" id="cfgTest">Tester</button>
       </div>
@@ -607,7 +614,7 @@ document.getElementById('saveBtn').onclick=()=>{
   const d=Store.read();const prev=d.entries[editKey]||{};
   d.entries[editKey]={...prev,mood:selMood,energy:selEnergy,note:document.getElementById('note').value.trim(),
     stress:selStress,coffee:extra.coffee,tea:extra.tea,soda:extra.soda,candy:extra.candy,alcohol:extra.alcohol,apero:extra.apero,who:extra.who,work:extra.work};
-  Store.write(d);celebrate();toast('Enregistré');
+  Store.write(d);celebrate();toast('Enregistré');scheduleBackup();
   const btn=document.getElementById('saveBtn');btn.classList.add('done');btn.textContent='Noté';
   setTimeout(()=>{btn.classList.remove('done');btn.textContent='Mettre à jour';},1600);
   document.getElementById('todayStatus').textContent='Déjà rempli · tu peux modifier';
@@ -841,6 +848,47 @@ async function fetchBin(id,key){
   if(!r.ok)throw new Error('HTTP '+r.status);
   return (await r.json()).record;
 }
+async function putBin(id,key,obj){
+  const url='https://api.jsonbin.io/v3/b/'+encodeURIComponent(id);
+  const opt=h=>({method:'PUT',headers:Object.assign({'Content-Type':'application/json'},h),body:JSON.stringify(obj)});
+  let r=await fetch(url,opt({'X-Master-Key':key}));
+  if(r.status===401||r.status===403)r=await fetch(url,opt({'X-Access-Key':key}));
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  return r.json();
+}
+let _bkTimer=null;
+function scheduleBackup(){clearTimeout(_bkTimer);_bkTimer=setTimeout(backupNow,1500);}
+async function backupNow(){
+  const c=Sync.read();if(!c.backupBin||!c.backupKey)return;
+  try{
+    const ts=new Date().toISOString();
+    await putBin(c.backupBin,c.backupKey,{ts,data:Store.read()});
+    c.lastBackup=ts;Sync.write(c);updateBkLabel();
+  }catch(e){/* silencieux */}
+}
+function updateBkLabel(){
+  const el=document.getElementById('bkLast');if(!el)return;
+  const c=Sync.read();
+  if(c.lastBackup){const d=new Date(c.lastBackup);el.textContent='Dernière sauvegarde : '+d.toLocaleDateString('fr-FR')+' à '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}
+  else el.textContent='Aucune sauvegarde encore.';
+}
+async function restoreBackup(){
+  const c=Sync.read();const bs=document.getElementById('bkStatus');
+  const binId=document.getElementById('cfgBkBin').value.trim(),key=document.getElementById('cfgBkKey').value.trim();
+  if(!binId||!key){bs.textContent='Renseigne la bin de secours et sa clé.';bs.style.color='var(--coral)';return;}
+  Sync.write({...Sync.read(),backupBin:binId,backupKey:key});
+  bs.textContent='Restauration...';bs.style.color='var(--mint)';
+  try{
+    const rec=await fetchBin(binId,key);
+    const data=(rec&&rec.data)?rec.data:rec;
+    if(!data||!data.entries){bs.textContent='Aucune sauvegarde exploitable dans cette bin.';bs.style.color='var(--coral)';return;}
+    const cur=Store.read();
+    Store.write({entries:{...data.entries,...cur.entries}});
+    buildToday();
+    const n=Object.keys(data.entries).length;
+    bs.textContent='Sauvegarde restaurée ('+n+' jour'+(n>1?'s':'')+').';bs.style.color='var(--mint)';
+  }catch(e){bs.textContent='Échec restauration ('+e.message+').';bs.style.color='var(--coral)';}
+}
 function normDate(s){
   s=(''+(s||'')).trim();let m;
   if(m=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/))return m[1]+'-'+m[2].padStart(2,'0')+'-'+m[3].padStart(2,'0');
@@ -882,9 +930,9 @@ async function syncFromBin(silent){
   catch(e){if(!silent)console.warn('sync',e);}
 }
 function setSyncStatus(t,ok){const el=document.getElementById('syncStatus');el.textContent=t;el.style.color=ok?'var(--mint)':'var(--coral)';}
-function openSettings(){const c=Sync.read();document.getElementById('cfgBin').value=c.binId||'';document.getElementById('cfgKey').value=c.readKey||'';setSyncStatus('',true);document.getElementById('settingsModal').classList.add('open');}
+function openSettings(){const c=Sync.read();document.getElementById('cfgBin').value=c.binId||'';document.getElementById('cfgKey').value=c.readKey||'';document.getElementById('cfgBkBin').value=c.backupBin||'';document.getElementById('cfgBkKey').value=c.backupKey||'';setSyncStatus('',true);document.getElementById('bkStatus').textContent='';updateBkLabel();document.getElementById('settingsModal').classList.add('open');}
 function closeSettings(){document.getElementById('settingsModal').classList.remove('open');}
-function saveSettings(){Sync.write({binId:document.getElementById('cfgBin').value.trim(),readKey:document.getElementById('cfgKey').value.trim()});setSyncStatus('Enregistré.',true);}
+function saveSettings(){Sync.write({...Sync.read(),binId:document.getElementById('cfgBin').value.trim(),readKey:document.getElementById('cfgKey').value.trim(),backupBin:document.getElementById('cfgBkBin').value.trim(),backupKey:document.getElementById('cfgBkKey').value.trim()});setSyncStatus('Enregistré.',true);updateBkLabel();}
 async function testSettings(){
   const binId=document.getElementById('cfgBin').value.trim(),readKey=document.getElementById('cfgKey').value.trim();
   if(!binId||!readKey){setSyncStatus('Renseigne les deux champs.',false);return;}
@@ -902,6 +950,7 @@ document.getElementById('gearBtn').onclick=openSettings;
 document.getElementById('cfgClose').onclick=closeSettings;
 document.getElementById('cfgSave').onclick=saveSettings;
 document.getElementById('cfgTest').onclick=testSettings;
+document.getElementById('cfgRestore').onclick=restoreBackup;
 document.getElementById('settingsModal').addEventListener('click',e=>{if(e.target.id==='settingsModal')closeSettings();});
 function shiftDay(delta){const d=new Date(editKey+'T00:00');d.setDate(d.getDate()+delta);const k=iso(d);if(k>todayKey)return;editKey=k;buildToday();}
 document.getElementById('dPrev').onclick=()=>shiftDay(-1);
