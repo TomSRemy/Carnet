@@ -903,11 +903,11 @@ document.getElementById('cfgClose').onclick=closeSettings;
 document.getElementById('cfgSave').onclick=saveSettings;
 document.getElementById('cfgTest').onclick=testSettings;
 document.getElementById('settingsModal').addEventListener('click',e=>{if(e.target.id==='settingsModal')closeSettings();});
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)function shiftDay(delta){const d=new Date(editKey+'T00:00');d.setDate(d.getDate()+delta);const k=iso(d);if(k>todayKey)return;editKey=k;buildToday();}
+function shiftDay(delta){const d=new Date(editKey+'T00:00');d.setDate(d.getDate()+delta);const k=iso(d);if(k>todayKey)return;editKey=k;buildToday();}
 document.getElementById('dPrev').onclick=()=>shiftDay(-1);
 document.getElementById('dNext').onclick=()=>shiftDay(1);
 document.getElementById('popEdit').onclick=()=>{if(!popKey)return;editKey=popKey;document.getElementById('pop').classList.remove('show');document.querySelector('.tab[data-view="today"]').click();};
-syncFromBin(true);});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncFromBin(true);});
 syncFromBin(true);
 </script>
 </body>
