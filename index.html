@@ -249,6 +249,69 @@
   .pop-card .pn{font-size:14px;margin-top:12px;border-top:1px dotted rgba(234,241,242,.2);padding-top:12px}
   .pop-card button{margin-top:16px;width:100%;border:1px solid rgba(234,241,242,.2);background:none;padding:11px;border-radius:6px;
     font-family:inherit;font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;color:#EAF1F2}
+
+  /* ---- détail métrique (tap sur cartes Bilan) ---- */
+  .acard.tap{cursor:pointer;position:relative}
+  .acard.tap::after{content:'›';position:absolute;top:10px;right:12px;color:var(--tx2);font-size:14px;line-height:1}
+  .acard.tap:active{transform:scale(.97)}
+  .dpop{position:fixed;inset:0;background:rgba(1,11,20,.7);display:none;align-items:flex-end;justify-content:center;z-index:60}
+  .dpop.show{display:flex;animation:fade .25s both}
+  .dpop-card{background:var(--pagebg);border-top:2px solid var(--tx);border-radius:16px 16px 0 0;
+    padding:18px 18px calc(22px + env(safe-area-inset-bottom));max-width:480px;width:100%;max-height:88vh;overflow:auto;color:var(--tx)}
+  .dphead{display:flex;justify-content:space-between;align-items:baseline}
+  .dphead .dpt{font-family:'Outfit',sans-serif;font-weight:300;font-size:20px;letter-spacing:1.5px;text-transform:uppercase;line-height:1.1}
+  .dphead button{background:none;border:none;color:var(--tx2);font-size:20px;font-family:inherit;padding:0 0 0 12px;line-height:1}
+  .dseg{display:flex;gap:6px;margin:14px 0 2px}
+  .dseg button{flex:1;background:var(--surf);border:1px solid var(--surfb);color:var(--tx2);font-family:inherit;
+    font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding:8px 2px;border-radius:8px;font-weight:600}
+  .dseg button.on{background:var(--canary);border-color:var(--canary);color:var(--ink)}
+  .dbig{display:flex;align-items:baseline;gap:9px;margin-top:14px;flex-wrap:wrap}
+  .dbig .n{font-family:'Outfit',sans-serif;font-weight:200;font-size:42px;color:var(--canary);line-height:1}
+  .dbig .u{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--tx2);font-weight:600}
+  .dchip{font-size:10px;letter-spacing:.5px;color:var(--tx);background:var(--surf);border:1px solid var(--surfb);padding:3px 9px;border-radius:7px}
+  .dkpis{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:14px}
+  .dkpis.two{grid-template-columns:1fr 1fr}
+  .dkpi{background:var(--surf);border:1px solid var(--surfb);border-radius:8px;padding:9px 4px;text-align:center}
+  .dkpi .kl{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--tx2);font-weight:600}
+  .dkpi .kv{font-family:'Outfit',sans-serif;font-weight:300;font-size:16px;margin-top:3px;color:var(--tx)}
+  .dkpi .kv small{font-size:10px;color:var(--tx2)}
+  .dsec{margin-top:18px;padding-top:14px;border-top:1px dotted var(--line)}
+  .dsec h4{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx2);font-weight:600;margin-bottom:10px}
+  .dsec>svg{width:100%;display:block;overflow:visible}
+  .drec{display:flex;justify-content:space-between;font-size:12px;padding:5px 0;color:var(--tx2)}
+  .drec b{color:var(--tx);font-weight:500}
+  .dins{font-size:12px;color:var(--tx);background:var(--surf);border:1px solid var(--surfb);border-radius:8px;padding:10px 12px;line-height:1.5;margin-top:10px}
+  .dins b{color:var(--canary);font-weight:500}
+  .dlegend{display:flex;gap:14px;font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--tx2);font-weight:600;margin-bottom:8px}
+  .dlegend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px}
+  .dclose{margin-top:20px;width:100%;border:1px solid var(--surfb);background:none;padding:11px;border-radius:6px;
+    font-family:inherit;font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--tx)}
+
+  /* ---- Analyse v2 ---- */
+  .a-intro{font-size:11px;color:var(--tx2);margin:-6px 0 14px;line-height:1.5}
+  .fx{padding:14px 0;border-top:1px dotted var(--line)}
+  .fx:first-child{border-top:none;padding-top:4px}
+  .fx-s{font-size:13px;margin-bottom:10px}
+  .fx-s b{color:var(--canary);font-weight:500}
+  .fx-row{display:flex;align-items:center;gap:9px;padding:3px 0}
+  .fx-lab{font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--tx2);width:86px;flex-shrink:0;font-weight:600;text-align:right}
+  .fx-track{flex:1;height:16px;background:var(--surf);border-radius:4px;overflow:hidden}
+  .fx-fill{height:100%;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;font-size:10px;font-weight:600;color:var(--ink);min-width:24px}
+  .fx-n{font-size:9px;color:var(--tx2);width:32px;flex-shrink:0}
+  .lk{padding:12px 0;border-top:1px dotted var(--line)}
+  .lk:first-child{border-top:none}
+  .lk-s{font-size:13px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .lk-s .lkc{font-size:9px;letter-spacing:.5px;text-transform:uppercase;font-weight:600;padding:2px 8px;border-radius:6px;flex-shrink:0;background:var(--surf);color:var(--tx2)}
+  .lk-s .lkc.fort{background:rgba(255,253,130,.14);color:var(--canary)}
+  .lk-s .lkc.fortneg{background:rgba(142,36,56,.32);color:#E8A0AC}
+  .lk-s .lkc.net{color:var(--tx)}
+  .lk-bar{position:relative;height:10px;background:var(--surf);border-radius:3px;margin-top:8px;overflow:hidden}
+  .lk-mid{position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--surfb)}
+  .lk-fill{position:absolute;top:0;bottom:0;border-radius:3px}
+  .lk-fill.pos{left:50%;background:var(--canary)}
+  .lk-fill.neg{right:50%;background:#8E2438}
+  .lk-sub{font-size:10px;color:var(--tx2);margin-top:5px}
+  .lk-axis{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.5px;text-transform:uppercase;color:var(--tx2);font-weight:600;margin:0 0 10px}
 </style>
 </head>
 <body class="theme-today">
@@ -388,12 +451,16 @@
   <!-- ============ ANALYSE ============ -->
   <section class="view" id="view-analyse">
     <div class="yr-nav" style="justify-content:flex-start"><div class="yr">Analyse</div></div>
-    <div class="section-t" style="border-top:none;margin-top:0;padding-top:0"><span class="emo"><svg viewBox="0 0 24 24"><path d="M12 3v18M7 21h10"/><path d="M4 7h16M12 5l-8 2 8-2 8 2"/><path d="M4 7l-2 4.5a2.2 2.2 0 0 0 4 0zM20 7l-2 4.5a2.2 2.2 0 0 0 4 0z"/></svg></span>Ce qui pèse sur ton humeur</div>
+    <div class="section-t" style="border-top:none;margin-top:0;padding-top:0"><span class="emo"><svg viewBox="0 0 24 24"><path d="M12 3v18M7 21h10"/><path d="M4 7h16M12 5l-8 2 8-2 8 2"/><path d="M4 7l-2 4.5a2.2 2.2 0 0 0 4 0zM20 7l-2 4.5a2.2 2.2 0 0 0 4 0z"/></svg></span>Ce qui change ton humeur</div>
+    <div class="a-intro">Ton humeur moyenne sur 5, comparée entre deux types de journées. Trié du plus gros écart au plus petit (minimum 3 jours par groupe).</div>
     <div id="facts"></div>
     <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><path d="M5 4h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H10l-4 4v-4H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg></span>Mots qui reviennent</div>
     <div class="words" id="words"></div>
-    <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><path d="M9 15l6-6"/><path d="M10.5 6.5L12 5a4 4 0 0 1 5.5 5.5L16 12"/><path d="M13.5 17.5L12 19a4 4 0 0 1-5.5-5.5L8 12"/></svg></span>Corrélations entre les données</div>
+    <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><path d="M9 15l6-6"/><path d="M10.5 6.5L12 5a4 4 0 0 1 5.5 5.5L16 12"/><path d="M13.5 17.5L12 19a4 4 0 0 1-5.5-5.5L8 12"/></svg></span>Les liens entre tes données</div>
+    <div class="a-intro">Quand une donnée monte, l'autre suit-elle ? Barre vers la droite = elles montent ensemble, vers la gauche = l'une monte quand l'autre descend. Plus la barre est longue, plus le lien est régulier.</div>
+    <div class="lk-axis"><span>← sens opposé</span><span>ensemble →</span></div>
     <div class="corrlist" id="corrTop"></div>
+    <div class="section-t"><span class="emo"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>La matrice complète</div>
     <div class="cmatrix" id="corrMatrix"></div>
     <div style="font-size:10px;color:var(--tx2);margin-top:10px;line-height:1.5">Coefficient de Pearson entre paires de jours (vert positif, rouge négatif). À lire avec prudence : avec peu de données beaucoup de liens sont dus au hasard, et corrélation n'est pas causalité.</div>
     <div style="font-size:11px;color:var(--tx2);margin-top:20px;line-height:1.5">Calcul local, sans IA : écart d'humeur moyenne entre deux groupes de jours (minimum 3 jours par groupe), trié par impact, et fréquence des mots de tes notes.</div>
@@ -423,6 +490,18 @@
   </div>
 </div>
 
+<div class="dpop" id="dpop">
+  <div class="dpop-card">
+    <div class="dphead">
+      <div class="dpt" id="dpTitle"></div>
+      <button onclick="document.getElementById('dpop').classList.remove('show')">✕</button>
+    </div>
+    <div class="dseg" id="dpSeg"></div>
+    <div id="dpBody"></div>
+    <button class="dclose" onclick="document.getElementById('dpop').classList.remove('show')">Fermer</button>
+  </div>
+</div>
+
 <script>
 const KEY='carnet_v1';
 const MOOD=[{c:'var(--m1)'},{c:'var(--m2)'},{c:'var(--m3)'},{c:'var(--m4)'},{c:'var(--m5)'}];
@@ -440,7 +519,7 @@ const AUTO_FIELDS=[
   {k:'sleep',  l:'Sommeil',  c:'var(--c-sleep)',  f:v=>fmtH(v)},
   {k:'steps',  l:'Pas',      c:'var(--c-steps)',  f:v=>Math.round(v).toLocaleString('fr-FR')},
   {k:'active', l:'Calories', c:'var(--c-active)', f:v=>Math.round(v)+' kcal'},
-  {k:'rhr',    l:'FC repos', c:'var(--c-rhr)',    f:v=>Math.round(v)+' bpm'},
+  {k:'rhr',    l:'FC moy.', c:'var(--c-rhr)',    f:v=>Math.round(v)+' bpm'},
   {k:'weight', l:'Poids',    c:'var(--c-weight)', f:v=>v.toLocaleString('fr-FR')+' kg'},
   {k:'screen', l:'Écran',    c:'var(--c-screen)', f:v=>fmtScreen(v)},
   {k:'photos', l:'Photos',   c:'var(--c-photos)', f:v=>Math.round(v)},
@@ -685,7 +764,7 @@ function sumAll(list,getter){return list.map(([,x])=>getter(x)).filter(x=>x!=nul
 function fillBars(id,vals,max,colorFn,labels){const el=document.getElementById(id);if(!el)return;el.innerHTML='';vals.forEach((a,i)=>{const w=document.createElement('div');w.className='mb';const h=(max&&a)?Math.round(a/max*100):0;w.innerHTML=`<div class="bar" style="height:${h}%;background:${a?colorFn(a,i):'var(--line)'}"></div><div class="ml">${labels[i]}</div>`;el.appendChild(w);});}
 function sparkSVG(series,color){const pts=series.map((y,i)=>({i,y})).filter(p=>p.y>0);if(pts.length<2)return '<svg viewBox="0 0 100 28" preserveAspectRatio="none"></svg>';const ys=pts.map(p=>p.y),mn=Math.min(...ys),mx=Math.max(...ys),rng=(mx-mn)||1,W=100,H=28,pd=3;const X=i=>pd+(i/11)*(W-2*pd);const Y=y=>H-pd-((y-mn)/rng)*(H-2*pd);const dd=pts.map((p,j)=>(j?'L':'M')+X(p.i).toFixed(1)+' '+Y(p.y).toFixed(1)).join(' ');const dots=pts.map(p=>`<circle cx="${X(p.i).toFixed(1)}" cy="${Y(p.y).toFixed(1)}" r="1.6" fill="${cssVar(color)}"/>`).join('');return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><path d="${dd}" fill="none" stroke="${cssVar(color)}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>${dots}</svg>`;}
 function blk(id,show){const el=document.getElementById(id);if(el)el.style.display=show?'':'none';}
-function acard(label,big,sub,series,color){return `<div class="acard"><div class="k" style="color:${cssVar(color)}">${label}</div><div class="v">${big}${sub?` <small>${sub}</small>`:''}</div>${sparkSVG(series,color)}</div>`;}
+function acard(label,big,sub,series,color,dk){return `<div class="acard${dk?' tap':''}"${dk?` data-dk="${dk}"`:''}><div class="k" style="color:${cssVar(color)}">${label}</div><div class="v">${big}${sub?` <small>${sub}</small>`:''}</div>${sparkSVG(series,color)}</div>`;}
 function buildFeltron(yAll,yEntries){
   const hasES=yEntries.some(([,v])=>v.energy||v.stress);blk('fbEnerStress',hasES);
   if(hasES){fillBars('ebars',monthAvg(yEntries,v=>v.energy),5,()=>cssVar('var(--mint)'),MONTHS1);
@@ -698,14 +777,215 @@ function buildFeltron(yAll,yEntries){
   const dowAvg=dow.map(a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0);blk('fbDow',dowAvg.some(x=>x));
   fillBars('dowBars',dowAvg,5,a=>cssVar(MOOD[Math.max(0,Math.round(a)-1)].c),['Lun','Mar','Mer','Jeu','Ven','Sam','Dim']);
   const autoKeys=['sleep','steps','active','rhr','weight','screen','meetings','tasks'];
-  const cards=autoKeys.map(k=>{const fl=AUTO_FIELDS.find(x=>x.k===k);if(!fl)return'';const avg=avgAll(yAll,v=>v.auto&&v.auto[k]);if(!avg)return'';return acard(fl.l,fl.f(avg),'moy.',monthAvg(yAll,v=>v.auto&&v.auto[k]),fl.c);}).filter(Boolean);
+  const cards=autoKeys.map(k=>{const fl=AUTO_FIELDS.find(x=>x.k===k);if(!fl)return'';const avg=avgAll(yAll,v=>v.auto&&v.auto[k]);if(!avg)return'';return acard(fl.l,fl.f(avg),'moy.',monthAvg(yAll,v=>v.auto&&v.auto[k]),fl.c,k);}).filter(Boolean);
   const km=sumAll(yAll,v=>v.garmin&&v.garmin.dist);
-  if(km>0)cards.push(acard('Distance',km.toLocaleString('fr-FR',{maximumFractionDigits:1}),'km',monthAvg(yAll,v=>v.garmin&&v.garmin.dist),'var(--c-sport)'));
+  if(km>0)cards.push(acard('Distance',km.toLocaleString('fr-FR',{maximumFractionDigits:1}),'km',monthAvg(yAll,v=>v.garmin&&v.garmin.dist),'var(--c-sport)','dist'));
   document.getElementById('autoCards').innerHTML=cards.join('');blk('fbAuto',cards.length>0);
   const cdef=[['coffee','Cafés','var(--canary)'],['tea','Thés','var(--mint)'],['soda','Sodas','var(--c-screen)'],['alcohol','Alcools','var(--m2)']];
-  const cc=cdef.map(([k,lab,col])=>{const tot=sumAll(yAll,v=>typeof v[k]==='number'?v[k]:null);if(!tot)return'';return acard(lab,tot,'au total',monthAvg(yAll,v=>typeof v[k]==='number'?v[k]:null),col);}).filter(Boolean);
+  const cc=cdef.map(([k,lab,col])=>{const tot=sumAll(yAll,v=>typeof v[k]==='number'?v[k]:null);if(!tot)return'';return acard(lab,tot,'au total',monthAvg(yAll,v=>typeof v[k]==='number'?v[k]:null),col,k);}).filter(Boolean);
+  [['candy','Bonbons','var(--c-candy)'],['apero','Apéro','var(--c-coffee)']].forEach(([k,lab,col])=>{
+    const series=[];for(let m=0;m<12;m++){const pre=`${viewYear}-${pad(m+1)}`;series.push(yAll.filter(([kk,v])=>kk.startsWith(pre)&&v[k]>=1).length);}
+    const days=yAll.filter(([,v])=>v[k]>=1).length;
+    if(days)cc.push(acard(lab,days,'jours',series,col,k));});
   document.getElementById('consoCards').innerHTML=cc.join('');blk('fbConso',cc.length>0);
+  ['autoCards','consoCards'].forEach(id=>{document.getElementById(id).querySelectorAll('.acard.tap').forEach(el=>el.onclick=()=>openDetail(el.dataset.dk));});
 }
+// ===== Détail métriques (tap sur cartes Bilan) =====
+const DWD=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+const DGROUPS=[
+  {id:'activite',t:'Activité',m:['steps','dist','active']},
+  {id:'recup',t:'Récupération',m:['sleep','rhr'],cross:true},
+  {id:'poids',t:'Poids',m:['weight']},
+  {id:'ecran',t:'Écran',m:['screen']},
+  {id:'agenda',t:'Agenda',m:['meetings','tasks']},
+  {id:'cafeine',t:'Caféine',m:['coffee','tea'],compare:true},
+  {id:'sucre',t:'Sucre & apéro',m:['soda','candy','apero'],compare:true},
+  {id:'alcool',t:'Alcool',m:['alcohol'],sober:true}
+];
+const DMET={
+  sleep:{l:'Sommeil',kind:'avg',c:'var(--c-sleep)',g:v=>v.auto&&v.auto.sleep,f:v=>fmtH(v),fc:v=>v.toFixed(1),u:'moy. / nuit'},
+  steps:{l:'Pas',kind:'avg',c:'var(--c-steps)',g:v=>v.auto&&v.auto.steps,f:v=>Math.round(v).toLocaleString('fr-FR'),fc:v=>(v/1000).toFixed(1)+'k',u:'moy. / jour'},
+  active:{l:'Calories',kind:'avg',c:'var(--c-active)',g:v=>v.auto&&v.auto.active,f:v=>Math.round(v)+' kcal',fc:v=>String(Math.round(v)),u:'moy. / jour'},
+  rhr:{l:'FC moy.',kind:'avg',c:'var(--c-rhr)',g:v=>v.auto&&v.auto.rhr,f:v=>Math.round(v)+' bpm',fc:v=>String(Math.round(v)),u:'moy.'},
+  weight:{l:'Poids',kind:'avg',c:'var(--c-weight)',g:v=>v.auto&&v.auto.weight,f:v=>v.toLocaleString('fr-FR',{maximumFractionDigits:1})+' kg',fc:v=>v.toFixed(1),u:'moy.'},
+  screen:{l:'Écran',kind:'avg',c:'var(--c-screen)',g:v=>v.auto&&v.auto.screen,f:v=>fmtScreen(v),fc:v=>(v/60).toFixed(1)+'h',u:'moy. / jour'},
+  meetings:{l:'Rendez-vous',kind:'sum',c:'var(--c-meet)',g:v=>v.auto&&v.auto.meetings,f:v=>String(Math.round(v)),fc:v=>String(Math.round(v)),u:'au total'},
+  tasks:{l:'Tâches',kind:'sum',c:'var(--c-tasks)',g:v=>v.auto&&v.auto.tasks,f:v=>String(Math.round(v)),fc:v=>String(Math.round(v)),u:'au total'},
+  dist:{l:'Distance',kind:'sum',c:'var(--c-sport)',g:v=>v.garmin&&v.garmin.dist,f:v=>v.toLocaleString('fr-FR',{maximumFractionDigits:1})+' km',fc:v=>v.toFixed(0),u:'km au total'},
+  coffee:{l:'Cafés',kind:'sum',c:'var(--canary)',g:v=>typeof v.coffee==='number'?v.coffee:null,f:v=>String(Math.round(v)),fc:v=>String(Math.round(v)),u:'au total'},
+  tea:{l:'Thés',kind:'sum',c:'var(--mint)',g:v=>typeof v.tea==='number'?v.tea:null,f:v=>String(Math.round(v)),fc:v=>String(Math.round(v)),u:'au total'},
+  soda:{l:'Sodas',kind:'sum',c:'var(--c-screen)',g:v=>typeof v.soda==='number'?v.soda:null,f:v=>String(Math.round(v)),fc:v=>String(Math.round(v)),u:'au total'},
+  alcohol:{l:'Alcools',kind:'sum',c:'var(--m2)',g:v=>typeof v.alcohol==='number'?v.alcohol:null,f:v=>String(Math.round(v)),fc:v=>String(Math.round(v)),u:'verres au total'},
+  candy:{l:'Bonbons',kind:'ord',c:'var(--c-candy)',g:v=>typeof v.candy==='number'?v.candy:null,f:v=>String(v),fc:v=>String(v),u:'jours avec'},
+  apero:{l:'Apéro',kind:'ord',c:'var(--c-coffee)',g:v=>typeof v.apero==='number'?v.apero:null,f:v=>String(v),fc:v=>String(v),u:'jours avec'}
+};
+let dpopGroup=null,dpopTab=null;
+function dDays(){return Object.entries(Store.read().entries).filter(([k])=>k.startsWith(viewYear+'-')).sort((a,b)=>a[0].localeCompare(b[0]));}
+function dPts(list,m){return list.map(([k,v])=>({k,v:m.g(v)})).filter(p=>typeof p.v==='number'&&isFinite(p.v)&&p.v>0);}
+function dFmtDate(k){return new Date(k+'T00:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});}
+function dDoy(k){return Math.round((new Date(k+'T00:00')-new Date(viewYear,0,1))/86400000);}
+function dMonthAgg(pts,kind){const out=Array(12).fill(0),cnt=Array(12).fill(0);
+  pts.forEach(p=>{const m=+p.k.slice(5,7)-1;out[m]+=p.v;cnt[m]++;});
+  return kind==='avg'?out.map((s,i)=>cnt[i]?s/cnt[i]:0):out;}
+function dMonthCount(pts){const out=Array(12).fill(0);pts.forEach(p=>{out[+p.k.slice(5,7)-1]++;});return out;}
+function dWdAgg(pts,kind){const out=Array(7).fill(0),cnt=Array(7).fill(0);
+  pts.forEach(p=>{const wd=(new Date(p.k+'T00:00').getDay()+6)%7;out[wd]+=p.v;cnt[wd]++;});
+  return kind==='avg'?out.map((s,i)=>cnt[i]?s/cnt[i]:0):out;}
+function dBox(l,v){return `<div class="dkpi"><div class="kl">${l}</div><div class="kv">${v}</div></div>`;}
+function dLineSVG(pts,color){
+  if(pts.length<5)return'';
+  const col=cssVar(color),tx2=cssVar('var(--tx2)'),ln=cssVar('var(--line)');
+  const W=360,H=112,pd=6;
+  const ys=pts.map(p=>p.v);let mn=Math.min(...ys),mx=Math.max(...ys);if(mx===mn)mx=mn+1;
+  const X=k=>pd+dDoy(k)/365*(W-2*pd);
+  const Y=v=>H-22-((v-mn)/(mx-mn))*(H-34);
+  const raw=pts.map((p,i)=>(i?'L':'M')+X(p.k).toFixed(1)+' '+Y(p.v).toFixed(1)).join(' ');
+  const ma=pts.map((p,i)=>{const w=pts.slice(Math.max(0,i-6),i+1);return{k:p.k,v:w.reduce((a,q)=>a+q.v,0)/w.length};});
+  const mad=ma.map((p,i)=>(i?'L':'M')+X(p.k).toFixed(1)+' '+Y(p.v).toFixed(1)).join(' ');
+  return `<svg viewBox="0 0 ${W} ${H}"><line x1="0" y1="${H-18}" x2="${W}" y2="${H-18}" stroke="${ln}"/><path d="${raw}" fill="none" stroke="${col}" stroke-width="1" opacity=".38"/><path d="${mad}" fill="none" stroke="${col}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><text x="${pd}" y="${H-5}" font-size="9" fill="${tx2}">janv</text><text x="${W/2}" y="${H-5}" font-size="9" fill="${tx2}" text-anchor="middle">juil</text><text x="${W-pd}" y="${H-5}" font-size="9" fill="${tx2}" text-anchor="end">déc</text></svg>`;
+}
+function dBarsSVG(vals,color,fmt,labels){
+  const col=cssVar(color),tx2=cssVar('var(--tx2)'),ln=cssVar('var(--line)');
+  const W=360,H=86,n=vals.length,gap=n>9?5:8,bw=(W-gap*(n-1))/n;
+  const mx=Math.max(...vals,0.001);
+  let s='';
+  vals.forEach((v,i)=>{const x=i*(bw+gap);
+    if(v>0){const h=Math.max(2,v/mx*48);
+      s+=`<rect x="${x.toFixed(1)}" y="${(66-h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${col}" opacity=".9"/>`;
+      s+=`<text x="${(x+bw/2).toFixed(1)}" y="${(61-h).toFixed(1)}" font-size="8.5" fill="${tx2}" text-anchor="middle">${fmt(v)}</text>`;}
+    s+=`<text x="${(x+bw/2).toFixed(1)}" y="${H-4}" font-size="8.5" fill="${tx2}" text-anchor="middle">${labels[i]}</text>`;});
+  return `<svg viewBox="0 0 ${W} ${H}">${s}<line x1="0" y1="67" x2="${W}" y2="67" stroke="${ln}"/></svg>`;
+}
+function dDualSVG(a,b,ca,cb){
+  const W=360,H=100,pd=6,tx2=cssVar('var(--tx2)'),ln=cssVar('var(--line)');
+  const X=i=>pd+i/11*(W-2*pd);
+  const line=(vals,col,dash)=>{const act=vals.map((v,i)=>({i,v})).filter(p=>p.v>0);if(act.length<2)return'';
+    const ys=act.map(p=>p.v);let mn=Math.min(...ys),mx=Math.max(...ys);if(mx===mn)mx=mn+1;
+    const Y=v=>H-20-((v-mn)/(mx-mn))*(H-34);
+    const d=act.map((p,j)=>(j?'L':'M')+X(p.i).toFixed(1)+' '+Y(p.v).toFixed(1)).join(' ');
+    return `<path d="${d}" fill="none" stroke="${col}" stroke-width="2.2"${dash?' stroke-dasharray="5 4"':''} stroke-linecap="round" stroke-linejoin="round"/>`;};
+  let lbls='';MONTHS1.forEach((l,i)=>{lbls+=`<text x="${X(i).toFixed(1)}" y="${H-4}" font-size="8.5" fill="${tx2}" text-anchor="middle">${l}</text>`;});
+  return `<svg viewBox="0 0 ${W} ${H}"><line x1="0" y1="${H-16}" x2="${W}" y2="${H-16}" stroke="${ln}"/>${line(a,cssVar(ca),false)}${line(b,cssVar(cb),true)}${lbls}</svg>`;
+}
+function dSoberStats(list){
+  const filled=list.filter(([,v])=>v.mood);
+  const map={};filled.forEach(([k,v])=>map[k]=v);
+  let cur=0,dd=new Date(today);
+  if(!map[iso(dd)])dd.setDate(dd.getDate()-1);
+  while(map[iso(dd)]&&!(map[iso(dd)].alcohol>0)){cur++;dd.setDate(dd.getDate()-1);}
+  let best=0,run=0;filled.forEach(([,v])=>{if(v.alcohol>0)run=0;else{run++;if(run>best)best=run;}});
+  return{cur,best};
+}
+function dRecupInsight(list){
+  const map={};list.forEach(([k,v])=>map[k]=v);
+  const pairs=[];
+  list.forEach(([k,v])=>{const s=v.auto&&v.auto.sleep;if(!s)return;
+    const d=new Date(k+'T00:00');d.setDate(d.getDate()+1);const nv=map[iso(d)];
+    const r=nv&&nv.auto&&nv.auto.rhr;if(!r)return;pairs.push({s,r});});
+  if(pairs.length<8)return null;
+  const med=median(pairs.map(p=>p.s));
+  const hi=pairs.filter(p=>p.s>=med),lo=pairs.filter(p=>p.s<med);
+  if(hi.length<3||lo.length<3)return null;
+  const mh=hi.reduce((a,p)=>a+p.r,0)/hi.length,ml=lo.reduce((a,p)=>a+p.r,0)/lo.length;
+  return{med,d:ml-mh,n:pairs.length};
+}
+function openDetail(mk){
+  const g=DGROUPS.find(x=>x.m.includes(mk))||{id:mk,t:(DMET[mk]||{l:mk}).l,m:[mk]};
+  dpopGroup=g;dpopTab=mk;
+  document.getElementById('dpTitle').textContent=g.t+' · '+viewYear;
+  renderDSeg();renderDBody();
+  const card=document.querySelector('#dpop .dpop-card');if(card)card.scrollTop=0;
+  document.getElementById('dpop').classList.add('show');
+}
+function renderDSeg(){
+  const g=dpopGroup,el=document.getElementById('dpSeg');
+  const tabs=g.m.map(k=>({id:k,l:DMET[k].l}));
+  if(g.cross)tabs.push({id:'_cross',l:'Croisé'});
+  if(g.compare)tabs.push({id:'_cmp',l:'Comparer'});
+  el.style.display=tabs.length>1?'':'none';
+  el.innerHTML=tabs.map(t=>`<button class="${dpopTab===t.id?'on':''}" data-t="${t.id}">${t.l}</button>`).join('');
+  el.querySelectorAll('button').forEach(b=>b.onclick=()=>{dpopTab=b.dataset.t;renderDSeg();renderDBody();});
+}
+function renderDBody(){
+  const el=document.getElementById('dpBody'),g=dpopGroup,list=dDays();
+  if(dpopTab==='_cross'){el.innerHTML=dCrossHTML(list);return;}
+  if(dpopTab==='_cmp'){el.innerHTML=dCmpHTML(list);return;}
+  const m=DMET[dpopTab],pts=dPts(list,m);
+  if(!pts.length){el.innerHTML=`<div class="empty-state">Pas encore de données pour ${viewYear}.</div>`;return;}
+  const isCur=(viewYear===today.getFullYear());
+  let h='';
+  if(m.kind==='avg'){
+    const vals=pts.map(p=>p.v);
+    const avg=vals.reduce((a,b)=>a+b,0)/vals.length;
+    let chip='';
+    if(isCur){const cut=iso(new Date(Date.now()-30*86400000));
+      const last=pts.filter(p=>p.k>=cut);
+      if(last.length>=3){const a30=last.reduce((a,p)=>a+p.v,0)/last.length;chip=`<span class="dchip">30 j : ${m.f(a30)}</span>`;}}
+    h+=`<div class="dbig"><span class="n">${m.f(avg)}</span><span class="u">${m.u}</span>${chip}</div>`;
+    h+=`<div class="dkpis">${dBox('Min',m.f(Math.min(...vals)))}${dBox('Max',m.f(Math.max(...vals)))}${dBox('Médiane',m.f(median(vals)))}${dBox('Jours',pts.length)}</div>`;
+    const line=dLineSVG(pts,m.c);
+    if(line)h+=`<div class="dsec"><h4>L'année au jour le jour <span style="opacity:.6;text-transform:none;letter-spacing:0">· trait épais = moyenne 7 j</span></h4>${line}</div>`;
+    h+=`<div class="dsec"><h4>Moyenne par mois</h4>${dBarsSVG(dMonthAgg(pts,'avg'),m.c,m.fc,MONTHS1)}</div>`;
+    const wk=pts.filter(p=>((new Date(p.k+'T00:00').getDay()+6)%7)<5).map(p=>p.v);
+    const we=pts.filter(p=>((new Date(p.k+'T00:00').getDay()+6)%7)>=5).map(p=>p.v);
+    if(wk.length&&we.length){
+      h+=`<div class="dsec"><h4>Semaine vs week-end</h4><div class="dkpis two">${dBox('Semaine',m.f(wk.reduce((a,b)=>a+b,0)/wk.length))}${dBox('Week-end',m.f(we.reduce((a,b)=>a+b,0)/we.length))}</div></div>`;}
+    let pmin=pts[0],pmax=pts[0];
+    pts.forEach(p=>{if(p.v<pmin.v)pmin=p;if(p.v>pmax.v)pmax=p;});
+    h+=`<div class="dsec"><h4>Records</h4><div class="drec"><span>Plus bas</span><b>${m.f(pmin.v)} · ${dFmtDate(pmin.k)}</b></div><div class="drec"><span>Plus haut</span><b>${m.f(pmax.v)} · ${dFmtDate(pmax.k)}</b></div></div>`;
+  }else if(m.kind==='sum'){
+    const total=pts.reduce((a,p)=>a+p.v,0);
+    const first=pts[0].k,last=pts[pts.length-1].k;
+    const span=Math.max(1,Math.round((new Date(last+'T00:00')-new Date(first+'T00:00'))/86400000)+1);
+    let chip='';
+    if(isCur){const left=Math.max(0,Math.round((new Date(viewYear,11,31)-new Date(last+'T00:00'))/86400000));
+      if(span>=14){const proj=Math.round(total*(1+left/span));chip=`<span class="dchip">≈ ${m.fc(proj)} projetés fin d'année</span>`;}}
+    const noDays=list.filter(([,v])=>v.mood&&!((m.g(v)||0)>0)).length;
+    const maxP=pts.reduce((a,p)=>p.v>a.v?p:a,pts[0]);
+    h+=`<div class="dbig"><span class="n">${m.f(total)}</span><span class="u">${m.u}</span>${chip}</div>`;
+    h+=`<div class="dkpis">${dBox('/ semaine',(total/(span/7)).toFixed(1))}${dBox('Jours avec',pts.length)}${dBox('Jours sans',noDays)}${dBox('Max / jour',m.fc(maxP.v))}</div>`;
+    h+=`<div class="dsec"><h4>Total par mois</h4>${dBarsSVG(dMonthAgg(pts,'sum'),m.c,m.fc,MONTHS1)}</div>`;
+    h+=`<div class="dsec"><h4>Selon le jour de la semaine</h4>${dBarsSVG(dWdAgg(pts,'sum'),m.c,m.fc,DWD)}</div>`;
+    if(g.sober){const s=dSoberStats(list);
+      h+=`<div class="dsec"><h4>Sobriété</h4><div class="dkpis two">${dBox('Série en cours',s.cur+' j')}${dBox('Record '+viewYear,s.best+' j')}</div><div class="dins">Jours notés consécutifs sans alcool. Le record compte la plus longue série de l'année.</div></div>`;}
+    h+=`<div class="dsec"><h4>Record</h4><div class="drec"><span>Plus gros jour</span><b>${m.f(maxP.v)} · ${dFmtDate(maxP.k)}</b></div></div>`;
+  }else{ // ord (candy / apero)
+    const lots=pts.filter(p=>p.v>=2).length;
+    const noDays=list.filter(([,v])=>v.mood&&!((m.g(v)||0)>0)).length;
+    h+=`<div class="dbig"><span class="n">${pts.length}</span><span class="u">${m.u}</span>${lots?`<span class="dchip">dont ${lots} « beaucoup »</span>`:''}</div>`;
+    h+=`<div class="dkpis">${dBox('Un peu',pts.length-lots)}${dBox('Beaucoup',lots)}${dBox('Jours sans',noDays)}${dBox('Part',Math.round(pts.length/Math.max(1,pts.length+noDays)*100)+'%')}</div>`;
+    h+=`<div class="dsec"><h4>Jours avec, par mois</h4>${dBarsSVG(dMonthCount(pts),m.c,v=>String(v),MONTHS1)}</div>`;
+    h+=`<div class="dsec"><h4>Selon le jour de la semaine</h4>${dBarsSVG(dWdAgg(pts.map(p=>({k:p.k,v:1})),'sum'),m.c,v=>String(v),DWD)}</div>`;
+  }
+  el.innerHTML=h;
+}
+function dCrossHTML(list){
+  const a=DMET.sleep,b=DMET.rhr;
+  const pa=dPts(list,a),pb=dPts(list,b);
+  if(pa.length<5||pb.length<5)return `<div class="empty-state">Pas encore assez de données croisées pour ${viewYear}.</div>`;
+  const ma=dMonthAgg(pa,'avg'),mb=dMonthAgg(pb,'avg');
+  let h=`<div class="dsec" style="border-top:none;margin-top:14px;padding-top:0"><h4>Moyennes mensuelles, chacune sur sa propre échelle</h4>`;
+  h+=`<div class="dlegend"><span><i style="background:${cssVar(a.c)}"></i>Sommeil</span><span><i style="background:${cssVar(b.c)}"></i>FC moy. (pointillé)</span></div>`;
+  h+=dDualSVG(ma,mb,a.c,b.c)+`</div>`;
+  const ins=dRecupInsight(list);
+  if(ins){const sens=ins.d>0?'plus basse':'plus haute';
+    h+=`<div class="dins">Après une nuit de <b>${fmtH(ins.med)} ou plus</b>, ta FC moyenne du lendemain est <b>${Math.abs(ins.d).toFixed(1)} bpm ${sens}</b> (${ins.n} paires de nuits).</div>`;}
+  else h+=`<div class="dins">Encore trop peu de paires nuit → lendemain pour calculer un lien fiable.</div>`;
+  return h;
+}
+function dCmpHTML(list){
+  const g=dpopGroup;
+  let h='',any=false;
+  g.m.forEach(k=>{const m=DMET[k];const pts=dPts(list,m);if(!pts.length)return;any=true;
+    if(m.kind==='ord'){
+      h+=`<div class="dsec"><h4 style="color:${cssVar(m.c)}">${m.l} · ${pts.length} jours avec</h4>${dBarsSVG(dMonthCount(pts),m.c,v=>String(v),MONTHS1)}</div>`;
+    }else{
+      const total=pts.reduce((s,p)=>s+p.v,0);
+      h+=`<div class="dsec"><h4 style="color:${cssVar(m.c)}">${m.l} · ${m.fc(total)} au total</h4>${dBarsSVG(dMonthAgg(pts,'sum'),m.c,m.fc,MONTHS1)}</div>`;}
+  });
+  return any?h:`<div class="empty-state">Pas encore de données pour ${viewYear}.</div>`;
+}
+
 function cell(cls,txt){const d=document.createElement('div');d.className=cls;d.textContent=txt;return d;}
 function cssVar(v){return v.startsWith('var(')?getComputedStyle(document.documentElement).getPropertyValue(v.slice(4,-1)).trim()||v:v;}
 function currentStreak(entries){
@@ -742,25 +1022,32 @@ function buildAnalysis(){
   const medScreen=median(entries.map(e=>get(e,'auto.screen')).filter(v=>v!=null));
   const medSun=median(entries.map(e=>get(e,'auto.weather.sun')).filter(v=>v!=null));
   const factors=[
-    {t:'Sport',a:'avec',b:'sans',fn:e=>(e.garmin&&(e.garmin.act||e.garmin.dist))?'A':'B'},
-    {t:'Sommeil',a:'+ que d\'hab',b:'- que d\'hab',fn:e=>{const v=get(e,'auto.sleep');return v==null||medSleep==null?null:(v>=medSleep?'A':'B');}},
-    {t:'Alcool',a:'sans',b:'avec',fn:e=>e.alcohol?'B':'A'},
-    {t:'Café',a:'≤ 1',b:'≥ 2',fn:e=>e.coffee==null?null:(e.coffee>=2?'B':'A')},
-    {t:'Écran',a:'faible',b:'élevé',fn:e=>{const v=get(e,'auto.screen');return v==null||medScreen==null?null:(v<=medScreen?'A':'B');}},
-    {t:'Soleil',a:'généreux',b:'gris',fn:e=>{const v=get(e,'auto.weather.sun');return v==null||medSun==null?null:(v>=medSun?'A':'B');}},
-    {t:'Travail',a:'léger',b:'chargé',fn:e=>e.work==null?null:(e.work>=2?'B':'A')},
-    {t:'Entourage',a:'accompagné',b:'seul',fn:e=>{if(!e.who||!e.who.length)return null;return e.who.some(i=>i!==0)?'A':'B';}}
+    {t:'Sport',a:'Avec sport',b:'Sans',p:['avec sport','sans sport'],fn:e=>(e.garmin&&(e.garmin.act||e.garmin.dist))?'A':'B'},
+    {t:'Sommeil',a:'Bien dormi',b:'Mal dormi',p:['quand tu dors plus que d\'habitude','quand tu dors moins que d\'habitude'],fn:e=>{const v=get(e,'auto.sleep');return v==null||medSleep==null?null:(v>=medSleep?'A':'B');}},
+    {t:'Alcool',a:'Sans alcool',b:'Avec',p:['les jours sans alcool','les jours avec alcool'],fn:e=>e.alcohol?'B':'A'},
+    {t:'Café',a:'≤ 1 café',b:'≥ 2 cafés',p:['à un café ou moins','à deux cafés ou plus'],fn:e=>e.coffee==null?null:(e.coffee>=2?'B':'A')},
+    {t:'Écran',a:'Écran léger',b:'Écran chargé',p:['quand l\'écran est léger','quand l\'écran est chargé'],fn:e=>{const v=get(e,'auto.screen');return v==null||medScreen==null?null:(v<=medScreen?'A':'B');}},
+    {t:'Soleil',a:'Ensoleillé',b:'Gris',p:['les jours ensoleillés','les jours gris'],fn:e=>{const v=get(e,'auto.weather.sun');return v==null||medSun==null?null:(v>=medSun?'A':'B');}},
+    {t:'Travail',a:'Trav. léger',b:'Trav. chargé',p:['quand le travail est léger','quand le travail est chargé'],fn:e=>e.work==null?null:(e.work>=2?'B':'A')},
+    {t:'Entourage',a:'Accompagné',b:'Seul',p:['quand tu es accompagné','quand tu es seul'],fn:e=>{if(!e.who||!e.who.length)return null;return e.who.some(i=>i!==0)?'A':'B';}}
   ];
   const rows=[];
   factors.forEach(f=>{const A=[],B=[];
     entries.forEach(e=>{const g=f.fn(e);if(g==='A')A.push(e.mood);else if(g==='B')B.push(e.mood);});
     if(A.length<3||B.length<3)return;
     const ma=A.reduce((s,x)=>s+x,0)/A.length,mb=B.reduce((s,x)=>s+x,0)/B.length;
-    rows.push({t:f.t,a:f.a,b:f.b,ma,mb,d:ma-mb});});
+    rows.push({t:f.t,a:f.a,b:f.b,p:f.p,ma,mb,na:A.length,nb:B.length,d:ma-mb});});
   rows.sort((x,y)=>Math.abs(y.d)-Math.abs(x.d));
+  const fxBar=(lab,val,n,hi)=>{
+    const bg=hi?'var(--canary)':'#8E2438';
+    const txc=hi?'var(--ink)':'#F7E7E1';
+    return `<div class="fx-row"><div class="fx-lab">${lab}</div><div class="fx-track"><div class="fx-fill" style="width:${Math.round(val/5*100)}%;background:${bg};color:${txc}">${val.toFixed(1).replace('.',',')}</div></div><div class="fx-n">${n} j</div></div>`;};
   elF.innerHTML=rows.length?rows.map(r=>{
-    const sign=r.d>=0?'pos':'neg',dd=(r.d>=0?'+':'')+r.d.toFixed(1);
-    return `<div class="fac"><div class="fac-h"><span>${r.t}</span><span class="fac-d ${sign}">${dd}</span></div><div class="fac-g"><span><b>${r.ma.toFixed(1)}</b><span class="gl">${r.a}</span></span><span><b>${r.mb.toFixed(1)}</b><span class="gl">${r.b}</span></span></div></div>`;
+    const hiP=r.d>=0?r.p[0]:r.p[1];
+    const dd='+'+Math.abs(r.d).toFixed(1).replace('.',',');
+    const s=Math.abs(r.d)<0.15?`<b>${r.t}</b> : quasiment aucun effet sur ton humeur`
+      :`Ton humeur est <b>${dd}</b> au-dessus ${hiP}`;
+    return `<div class="fx"><div class="fx-s">${s}</div>${fxBar(r.a,r.ma,r.na,r.d>=0)}${fxBar(r.b,r.mb,r.nb,r.d<0)}</div>`;
   }).join(''):'<div class="empty-state">Continue à remplir, surtout les données auto, pour faire ressortir des liens.</div>';
   function top(set){const c={};set.forEach(e=>norm(e.note).forEach(w=>c[w]=(c[w]||0)+1));return Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,8);}
   const good=top(entries.filter(e=>e.mood>=4&&e.note)),bad=top(entries.filter(e=>e.mood<=2&&e.note));
@@ -771,7 +1058,7 @@ function buildAnalysis(){
   const VARS=[
     {k:'Humeur',f:e=>e.mood},{k:'Énergie',f:e=>e.energy},{k:'Stress',f:e=>e.stress},
     {k:'Sommeil',f:e=>e.auto&&e.auto.sleep},{k:'Pas',f:e=>e.auto&&e.auto.steps},
-    {k:'FC repos',f:e=>e.auto&&e.auto.rhr},{k:'Poids',f:e=>e.auto&&e.auto.weight},
+    {k:'FC moy.',f:e=>e.auto&&e.auto.rhr},{k:'Poids',f:e=>e.auto&&e.auto.weight},
     {k:'Cal. actives',f:e=>e.auto&&e.auto.active},{k:'Écran',f:e=>e.auto&&e.auto.screen},
     {k:'Soleil',f:e=>e.auto&&e.auto.weather&&e.auto.weather.sun},
     {k:'Café',f:e=>e.coffee},{k:'Thé',f:e=>e.tea},{k:'Soda',f:e=>e.soda},{k:'Alcool',f:e=>e.alcohol},
@@ -785,7 +1072,14 @@ function buildAnalysis(){
   for(let i=0;i<VARS.length;i++)for(let j=i+1;j<VARS.length;j++){const o=pr(VARS[i],VARS[j]);if(o.r!=null&&o.n>=8)pairs.push({a:VARS[i].k,b:VARS[j].k,r:o.r,n:o.n});}
   pairs.sort((x,y)=>Math.abs(y.r)-Math.abs(x.r));
   if(pairs.length){
-    elT.innerHTML=pairs.slice(0,10).map(p=>`<div class="cr"><span class="cn">${p.a} ↔ ${p.b}</span><span class="crv ${p.r>=0?'pos':'neg'}">${(p.r>=0?'+':'')+p.r.toFixed(2)}</span><span class="cnn">n=${p.n}</span></div>`).join('');
+    elT.innerHTML=pairs.slice(0,10).map(p=>{
+      const abs=Math.abs(p.r);
+      const cls=abs>=0.5?(p.r>=0?'fort':'fortneg'):(abs>=0.3?'net':'');
+      const lbl=abs>=0.5?'Lien fort':(abs>=0.3?'Lien net':'Lien léger');
+      const sub=p.r>=0?`${p.a} et ${p.b} montent ensemble`:`Quand ${p.a} monte, ${p.b} descend`;
+      const w=Math.round(abs*50);
+      return `<div class="lk"><div class="lk-s"><span>${p.a} ↔ ${p.b}</span><span class="lkc ${cls}">${lbl}</span></div><div class="lk-bar"><div class="lk-mid"></div><div class="lk-fill ${p.r>=0?'pos':'neg'}" style="width:${w}%"></div></div><div class="lk-sub">${sub} · r ${(p.r>=0?'+':'−')+abs.toFixed(2).replace('.',',')} · ${p.n} jours</div></div>`;
+    }).join('');
     let mg='<div class="cmgrid" style="grid-template-columns:20px repeat('+VARS.length+',1fr)"><div></div>'+VARS.map((v,j)=>`<div class="cmh">${j+1}</div>`).join('');
     VARS.forEach((vi,i)=>{mg+=`<div class="cmh">${i+1}</div>`;VARS.forEach((vj,j)=>{if(i===j){mg+='<div class="cmcell" style="background:rgba(255,255,255,.10)"></div>';return;}const o=pr(vi,vj);mg+=`<div class="cmcell" style="background:${cc(o.n>=5?o.r:null)}"></div>`;});});
     mg+='</div><div class="cmkey">'+VARS.map((v,i)=>`${i+1} ${v.k}`).join(' · ')+'</div>';
